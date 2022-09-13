@@ -1,0 +1,33 @@
+2022-09-12 16:12:52,220 mloop                INFO     M-LOOP version 3.3.1
+2022-09-12 16:12:52,220 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-12 16:12:52,220 mloop.interfaces     DEBUG    Creating interface.
+2022-09-12 16:12:52,221 mloop.controllers    DEBUG    Controller init completed.
+2022-09-12 16:12:52,221 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-12 16:12:52,222 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-12 16:12:52,222 mloop.controllers    INFO     Optimization started.
+2022-09-12 16:12:52,224 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-12 16:12:52,224 mloop.controllers    DEBUG    ML learner started.
+2022-09-12 16:12:52,296 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-12 16:12:52,296 mloop.controllers    INFO     Run:1 (training)
+2022-09-12 16:12:52,298 mloop.controllers    INFO     params [ 4.90436711 19.0618381  16.90564388 18.54825619 13.42904207  8.14028427
+  0.13994187  0.31802656  0.21934506  0.18593659  0.08266237 -7.15870396
+  2.80727274 -1.86145835  7.37158502 -2.26129494  5.48198792 -0.39859774
+ -4.25108285  5.92537602  7.05088825  6.59414945 -5.13798085 -4.28568448
+ -0.60409278  1.01383319]
+2022-09-12 16:12:52,301 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-09-12 16:12:52,301 mloop.controllers    DEBUG    ML learner end set.
+2022-09-12 16:12:54,510 mloop.controllers    DEBUG    ML learner joined
+2022-09-12 16:12:54,510 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-12 16:12:54,510 mloop.controllers    DEBUG    Learner end event set.
+2022-09-12 16:12:54,511 mloop.controllers    DEBUG    Interface end event set.
+2022-09-12 16:12:55,243 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-12 16:12:55,334 mloop.interfaces     DEBUG    Interface ended
+2022-09-12 16:12:56,245 mloop.controllers    DEBUG    Learner joined.
+2022-09-12 16:12:56,245 mloop.controllers    DEBUG    Interface joined.
+2022-09-12 16:12:56,245 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-09-12 16:12:56,246 mloop.controllers    INFO     Optimization ended because:
+2022-09-12 16:12:56,246 mloop.controllers    INFO     	* Error occurred.
+2022-09-12 16:12:56,246 mloop.controllers    INFO     Results:
+2022-09-12 16:12:56,247 mloop.controllers    INFO     	* Best parameters found:nan
+2022-09-12 16:12:56,247 mloop.controllers    INFO     	* Best cost returned:inf +/- nan
+2022-09-12 16:12:56,247 mloop.controllers    INFO     	* Best run number:nan

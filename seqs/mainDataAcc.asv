@@ -1,0 +1,237 @@
+%% ------The following is for taking lifetime data-----------
+% if 1
+%     numRun = 100;           % ionization
+%     numRunCheck = 3;        %check KRb condition
+% %     argList = [-1 -0.05 -0.02 0.0001 0.05 0.1 0.25 0.5 1 2 3.5 5 10 20]*1e-6;   %[s]
+%     argList = [80 20]*1e-6;   %[s]
+%     numRunEach = numRun./length(argList);
+%      for i = 1:10
+%         runScan(@mainHighB, numRunCheck, 0);
+%         for j=1:numRunEach
+%             runScan(@mainIonizationHighRep, 1, 'random', argList);
+%         end
+%         mainEmailTest(i);
+%     end
+% end
+
+%% ------The following is for taking lifetime data-----------
+% numRun = 100;           % ionization
+% numRunCheck = 3;        %check KRb condition
+% for i = 1:20
+%     runScan(@mainHighB, numRunCheck, 0);
+%     runScan(@mainIonizationHighRep, numRun, 1);
+%     mainEmailTest(i);
+% end
+
+%% --------The following is for UV spectroscopy
+% if 1
+%     numRunCheck = 2;
+%     for i = 1:2
+%         runScan(@mainHighB, numRunCheck, [0 1]);
+%         runScan(@mainIonizationHighRep, 50, 0.1);
+% %         mainEmailTest(i);
+%     end
+% end
+
+% %% --------The following is for UV spectroscopy
+% if 1
+%     numRunCheck = 2;
+%     f_List = 709.4:0.02:710;  %[nm]
+%     for i = 1:3
+%         runScan(@mainHighB, numRunCheck, [0 1]);
+%         runScan(@mainIonizationHighRep, 1, 'random', f_List);
+%     end
+% end
+
+
+
+% if 0
+%     imax = 2;
+%     for i = 1:imax
+%         fc = 7.783;
+%         Df =0.03;
+%         df = 0.003;
+%         f_List = [fc-Df:df:fc+Df];
+% %         f_List = [7.78:df:7.812 7.875:df:7.90];
+% %         disp('          ');
+% %         disp(['-------', num2str(i), '/', num2str(imax), '-------']);
+%         runScan(@mainHighB, 1, 'random', f_List);
+%     end
+% end
+
+
+
+
+% if 0
+%     for i = 1:1
+%         t_List = [400:5:500];%%[200:25:640];[1:5:200];%
+%         runScan(@mainHighB, 1, 'random', t_List);
+%     end
+% end
+%
+
+
+
+
+% for i = 1:7
+%     runScan(@mainHighB, numRunCheck, {0,0});
+%     runScan(@mainIonizationHighRep, numRunEach, 'random', ...
+%         {2e-6, 1}, {158e-6, 1}, {2e-6, 1.5}, {158e-6, 1.5}, {2e-6, 2}, {158e-6, 2}, {2e-6, 2.5}, {158e-6, 2.5},...
+%         {2e-6, 3}, {158e-6, 3}, {2e-6, 3.5}, {158e-6, 3.5}, {2e-6, 4}, {158e-6, 4});
+% %     runScan(@mainHighB, numRunCheck, 0);
+% end
+
+
+
+
+% for i = 1:10
+%     runScan(@mainHighB, numRunCheck, 0);
+%     runScan(@mainIonizationHighRep, numRunEach, 'random', argList);
+% %     runScan(@mainHighB, numRunCheck, 0);
+% end
+
+% for i = 1:10
+%     runScan(@mainHighB, numRunCheck, 0);
+%     runScan(@mainIonizationHighRep, numRun, 'random', 1);
+% %     runScan(@mainHighB, numRunCheck, 0);
+% end
+
+% %% ------------------ the following is for scanning E field --------------------
+% runScan(@mainHighB, 2, 0);
+% runScan(@mainIonizationHighRep, 30, 100);
+
+%% ------------------ the following is for scanning B field --------------------
+
+% Bfield = [5 7 9 12 15 20 25 30 40 50];
+% numRun = 50;
+% for i = 1:numRun
+%     runScan(@mainHighB, 1, 0);
+%     runScan(@mainIonizationHighRep, 1, 'random', Bfield);
+% end
+
+
+%% ------------------ the following is for scanning REMPI --------------------
+% numRun = 15;            % ionization
+% numRunCheck = 1;        %check KRb condition
+% 
+% f0_650 = 445000+[35.0300   35.5700   35.9300   37.2400]; %Q3-1, R0
+% 
+% %%---following has been done-----------
+% % f0_650 = 445000+[29.6000   31.0500   32.3100   33.4000   34.3000]; %Q8-4
+% %f0_650 = 445000 + [19.6500   22.0100   24.1800   26.1700   27.9700]; %Q13-9
+% % f0_650 = 445000+[5.1900   11.5200   14.4100   17.1200]; %Q18,16-14
+% % f0_650 = [445008.44];%Q17
+% % f0_650 = [445001.75];%Q19 
+% 
+% for j = 1:length(f0_650)
+%     %    argList = [-0.1:-0.1:-1]  + f0_650(j);% for identifying a new vB transition
+%     %    argList = [0, -0.09, 0.09, -0.03, 0.03, -0.12, 0.12, -0.06, 0.06, -0.2, 0.2]  + f0_650(j);
+%     argList = [-0.2, 0, 0.2, -0.09, 0.09, -0.03, 0.03, -0.12, 0.12, -0.06, 0.06]  + f0_650(j);
+%     for i = 1:length(argList)
+%         runScan(@mainIonizationHighRep, 1, argList(i));
+%         if i==1
+%             numRunCheck = 3;
+%         else
+%             numRunCheck = 1;
+%         end
+%        runScan(@mainHighB, numRunCheck, 0);
+%        runScan(@mainIonizationHighRep, numRun, argList(i));
+%    end
+%    try
+%        mainEmailTest(j,length(f0_650));
+%    catch err
+%        warning('Email send failed!')
+%    end
+% end
+ 
+% %% ------------------ the following is for scanning REMPI Intensity --------------------
+% numRun = 2;            % ionization
+% numRunCheck = 1;        %check KRb condition
+% argList = [0.7 1.5 0.8 1.0 0.4 3 0.5 1.2 0.001];%Keithley voltage
+% % argList = [1.1 1.2 1.5];%Keithley voltage
+% for j = 1:5
+%     runScan(@mainHighB, numRunCheck, 0);
+%     for i = 1:length(argList)
+%        runScan(@mainIonizationHighRep, numRun, argList(i));
+%    end
+%    try
+% %        mainEmailTest(j,4);
+%    catch err
+%        warning('Email send failed!')
+%    end
+% end
+
+
+
+
+% % % ------------------ the following is for generic things other than REMPI freq scan--------------------
+% % % numRun = 100;           % ionization
+%  numRunCheck = 1;        %check KRb condition
+% % % argList = [19.8];
+% % % argList = [-50, -40, -30, -25, -20, -15, -10, -5, 1, 5, 10, 15, 20, 25, 30, 40, 50, 70];
+% % % argList = [3, 4, 5, 6, 7];
+% % % argList = [1e-3, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1.0, 1.5, 2.0, 3.0];   %[V]
+% % % argList = [0.5];
+% argList = [5 7 9 12 15 20 25 30 40 50];
+% % argList = [340];
+% % argList = [15, 25];
+% % % numRunEach = numRun./length(argList);
+% numRunEach = 10;
+% for i = 1:8
+%     runScan(@mainHighB, numRunCheck, 'random', 0);
+%     for j = 1:numRunEach
+%         runScan(@mainIonizationHighRep, 1, 'random', argList);
+%     end
+%     try
+%         mainEmailTest(i);
+%     catch err
+%         warning('Email send failed!')
+%     end
+% end
+
+% ------------------Scanning 650&670 REMPI freq--------------------
+numRun = 15;            % ionization
+numRunCheck = 1;        %check KRb condition
+
+% f0_650 = 462800 + 122.64 + 0.01; %Q6 K2
+% f0_650 = 462800 + 131.28; %Q2 K2
+% f0_650 = 462800 + 135.50; %R0 K2
+% f0_650 = 462800 + 127.92; %Q4 K2
+% f0_650 = 462800 + 115.50; %Q8 K2
+f0_650 = 462800 + 106.34; %Q10 K2
+
+% f0_670 = 445000 + 35.935; %Q1 Rb2
+% f0_670 = 445000 + 34.98; %Q3 Rb2
+f0_670 = 445000 + 33.39; %Q5 Rb2
+% f0_670 = 445000 + 31.04 + 0.015; %Q7 Rb2
+% f0_670 = 445000 + 27.95 + 0.015; %Q9 Rb2
+% f0_670 = 445000 + 24.12; %Q11 Rb2
+% f0_670 = 445000 + 19.65; %Q13 Rb2
+% f0_670 = 445000 + 8.44 + 0.01; %Q17 Rb2
+% f0_670 = 445000 + 1.75; %Q19 Rb2
+
+%    argList = [-0.2, 0, 0.2, -0.09, 0.09, -0.03, 0.03, -0.12, 0.12, -0.06, 0.06];
+%      argList = [0.0, -0.03, 0.03, -0.06, 0.06 0.09 -0.09];
+   argList = [0.0 -0.03 0.03 -0.06 0.06];
+%     argList = [0.12];
+%    argList = [0.0 -0.015 0.015];
+    argList650 = argList + f0_650;
+    argList670 = argList + f0_670;
+%                      runScan(@(varargin) ExpSeq(), 1, {argList650(i), argList670(i)})
+%             runScan(@mainIonizationHighRep, 1,{argList650(i), argList670(i)});
+%       for i = 1:length(argList)
+%           runScan(@mainHighB, numRunCheck, 0);
+%           runScan(@mainIonizationHighRep, numRun, {argList650(i), argList670(i)});
+%       end
+%      
+     for i = 1:70
+         runScan(@mainHighB, numRunCheck, 0);
+         runScan(@mainIonizationHighRep, numRun, {f0_650, f0_670});
+     end
+% mailSub = 'Experiment sequences finished!';
+% mailMess = 'It is ready for taking the next set of data. ';
+% try
+%     mainEmailTest(mailSub, mailMess);
+% catch err
+%     warning('Email send failed!')
+% end

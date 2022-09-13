@@ -1,0 +1,46 @@
+2022-09-12 17:25:26,635 mloop                INFO     M-LOOP version 3.3.1
+2022-09-12 17:25:26,636 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-12 17:25:26,636 mloop.interfaces     DEBUG    Creating interface.
+2022-09-12 17:25:26,639 mloop.controllers    DEBUG    Controller init completed.
+2022-09-12 17:25:26,640 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-12 17:25:26,642 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-12 17:25:26,644 mloop.controllers    INFO     Optimization started.
+2022-09-12 17:25:26,644 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-12 17:25:26,645 mloop.controllers    DEBUG    ML learner started.
+2022-09-12 17:25:26,650 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-12 17:25:26,651 mloop.controllers    INFO     Run:1 (training)
+2022-09-12 17:25:26,655 mloop.controllers    INFO     params [11.98502936  3.07960684  9.40769725 11.85241271 13.85739188 10.69275575
+  0.19139153  0.32336044  0.27456598  0.41627801  0.35696785  1.28635448
+ -1.1927984   2.09519095  1.18058612  2.2797833  -3.35513885  0.22230743
+  4.66027119  7.56488903 -5.72586856 -5.95625629  0.10570242  4.25778178
+  6.39236854 -2.97697554]
+2022-09-12 17:25:26,661 mloop.controllers    INFO     cost -64.68983927245992 +/- 0.0
+2022-09-12 17:25:26,662 mloop.controllers    INFO     Controller finished. Closing down M-LOOP. Please wait a moment...
+2022-09-12 17:25:26,663 mloop.controllers    DEBUG    ML learner end set.
+2022-09-12 17:25:27,986 mloop.controllers    DEBUG    ML learner joined
+2022-09-12 17:25:27,987 mloop.controllers    DEBUG    Learner end event set.
+2022-09-12 17:25:27,987 mloop.controllers    DEBUG    Interface end event set.
+2022-09-12 17:25:28,648 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-12 17:25:28,660 mloop.interfaces     DEBUG    Interface ended
+2022-09-12 17:25:29,650 mloop.controllers    DEBUG    Learner joined.
+2022-09-12 17:25:29,650 mloop.controllers    DEBUG    Interface joined.
+2022-09-12 17:25:29,654 mloop.controllers    INFO     Optimization ended because:
+2022-09-12 17:25:29,654 mloop.controllers    INFO     	* Target cost reached.
+2022-09-12 17:25:29,654 mloop.controllers    INFO     	* Target cost reached.
+2022-09-12 17:25:29,654 mloop.controllers    INFO     	* Target cost reached.
+2022-09-12 17:25:29,655 mloop.controllers    INFO     Results:
+2022-09-12 17:25:29,656 mloop.controllers    INFO     	* Best parameters found:[11.98502936  3.07960684  9.40769725 11.85241271 13.85739188 10.69275575
+  0.19139153  0.32336044  0.27456598  0.41627801  0.35696785  1.28635448
+ -1.1927984   2.09519095  1.18058612  2.2797833  -3.35513885  0.22230743
+  4.66027119  7.56488903 -5.72586856 -5.95625629  0.10570242  4.25778178
+  6.39236854 -2.97697554]
+2022-09-12 17:25:29,656 mloop.controllers    INFO     	* Best cost returned:-64.68983927245992 +/- 0.0
+2022-09-12 17:25:29,656 mloop.controllers    INFO     	* Best run number:1
+2022-09-12 17:25:29,657 mloop.controllers    INFO     	* Predicted best parameters:[11.98502936  3.07960684  9.40769725 11.85241271 13.85739188 10.69275575
+  0.19139153  0.32336044  0.27456598  0.41627801  0.35696785  1.28635448
+ -1.1927984   2.09519095  1.18058612  2.2797833  -3.35513885  0.22230743
+  4.66027119  7.56488903 -5.72586856 -5.95625629  0.10570242  4.25778178
+  6.39236854 -2.97697554]
+2022-09-12 17:25:29,657 mloop.controllers    INFO     	* Predicted best cost:-64.68983927245992 +/- 0.00447212477474633
+2022-09-12 17:25:29,657 mloop.controllers    INFO     M-LOOP Done.
+2022-09-12 17:25:29,658 mloop.visualizations DEBUG    Creating controller visualizations.

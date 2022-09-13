@@ -1,0 +1,121 @@
+2022-09-12 17:40:52,503 mloop                INFO     M-LOOP version 3.3.1
+2022-09-12 17:40:52,504 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-12 17:40:52,504 mloop.interfaces     DEBUG    Creating interface.
+2022-09-12 17:40:52,507 mloop.controllers    DEBUG    Controller init completed.
+2022-09-12 17:40:52,508 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-12 17:40:52,509 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-12 17:40:52,510 mloop.controllers    INFO     Optimization started.
+2022-09-12 17:40:52,511 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-12 17:40:52,512 mloop.controllers    DEBUG    ML learner started.
+2022-09-12 17:40:52,518 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-12 17:40:52,519 mloop.controllers    INFO     Run:1 (training)
+2022-09-12 17:40:52,521 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-12 17:40:52,522 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-12 17:40:52,522 mloop.controllers    INFO     params [-0.11080299  0.60388701  0.27254184]
+2022-09-12 17:40:52,522 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-12 17:40:52,524 mloop.neuralnet      INFO     Constructing net
+2022-09-12 17:40:53,527 mloop.controllers    INFO     cost -2.3984276361355406 +/- 0.0
+2022-09-12 17:40:53,527 mloop.controllers    INFO     Run:2 (training)
+2022-09-12 17:40:53,530 mloop.controllers    INFO     params [-1.76746998  0.131227   -0.60651554]
+2022-09-12 17:40:53,536 mloop.neuralnet      DEBUG    Finished constructing net in: 1.0130424499511719
+2022-09-12 17:40:53,642 mloop.neuralnet      INFO     Constructing net
+2022-09-12 17:40:54,486 mloop.neuralnet      DEBUG    Finished constructing net in: 0.844735860824585
+2022-09-12 17:40:54,532 mloop.controllers    INFO     cost -1.506527802963595 +/- 0.0
+2022-09-12 17:40:54,533 mloop.controllers    INFO     Run:3 (training)
+2022-09-12 17:40:54,534 mloop.controllers    INFO     params [-0.23040429  1.69387044 -0.92755469]
+2022-09-12 17:40:54,573 mloop.neuralnet      INFO     Constructing net
+2022-09-12 17:40:55,536 mloop.controllers    INFO     cost -0.9221834543363956 +/- 0.0
+2022-09-12 17:40:55,537 mloop.controllers    INFO     Run:4 (training)
+2022-09-12 17:40:55,539 mloop.controllers    INFO     params [ 1.98902259 -1.43970375  1.66686317]
+2022-09-12 17:40:55,726 mloop.neuralnet      DEBUG    Finished constructing net in: 1.1535720825195312
+2022-09-12 17:40:56,541 mloop.controllers    INFO     cost 0.3311110638230577 +/- 0.0
+2022-09-12 17:40:56,541 mloop.controllers    INFO     Run:5 (training)
+2022-09-12 17:40:56,543 mloop.controllers    INFO     params [-0.44554491  1.06547461  0.58890815]
+2022-09-12 17:40:57,544 mloop.controllers    INFO     cost -1.1227301791015825 +/- 0.0
+2022-09-12 17:40:57,545 mloop.controllers    INFO     Run:6 (training)
+2022-09-12 17:40:57,546 mloop.controllers    INFO     params [-1.78324737  1.91842269 -1.49052951]
+2022-09-12 17:40:58,548 mloop.controllers    INFO     cost 0.42240572475421223 +/- 0.0
+2022-09-12 17:40:58,548 mloop.controllers    INFO     Run:7 (training)
+2022-09-12 17:40:58,550 mloop.controllers    INFO     params [-1.6204336  -1.37637466  1.78500737]
+2022-09-12 17:40:59,551 mloop.controllers    INFO     cost 0.45723629135589244 +/- 0.0
+2022-09-12 17:40:59,552 mloop.controllers    INFO     Run:8 (training)
+2022-09-12 17:40:59,553 mloop.controllers    INFO     params [0.15801641 1.27887183 0.49528453]
+2022-09-12 17:41:00,555 mloop.controllers    INFO     cost -1.3264994058986839 +/- 0.0
+2022-09-12 17:41:00,556 mloop.controllers    INFO     Run:9 (training)
+2022-09-12 17:41:00,557 mloop.controllers    INFO     params [ 0.024904   -0.02599629 -1.48703602]
+2022-09-12 17:41:01,559 mloop.controllers    INFO     cost -1.7578816462958073 +/- 0.0
+2022-09-12 17:41:01,559 mloop.controllers    INFO     Run:10 (training)
+2022-09-12 17:41:01,560 mloop.controllers    INFO     params [-1.92744729 -1.03907035  1.69940362]
+2022-09-12 17:41:02,562 mloop.controllers    INFO     cost 0.2598062369234784 +/- 0.0
+2022-09-12 17:41:02,563 mloop.controllers    INFO     Run:11 (training)
+2022-09-12 17:41:02,564 mloop.controllers    INFO     params [-0.14643942 -0.2800544   0.52304552]
+2022-09-12 17:41:02,565 mloop.controllers    DEBUG    Starting ML optimization.
+2022-09-12 17:41:03,566 mloop.controllers    INFO     cost -2.21706773615848 +/- 0.0
+2022-09-12 17:41:03,573 mloop.controllers    DEBUG    End training runs.
+2022-09-12 17:41:03,574 mloop.controllers    INFO     Run:12 (trainer)
+2022-09-12 17:41:03,575 mloop.controllers    INFO     params [ 0.04125872  1.85591101 -1.7252995 ]
+2022-09-12 17:41:03,575 mloop.neuralnet      DEBUG    Fitting neural network
+2022-09-12 17:41:03,658 mloop.neuralnet      DEBUG    Training with threshold 3.4963985443115235
+2022-09-12 17:41:03,870 mloop.neuralnet      DEBUG    Fit neural network with total training cost 2.5027785301208496, with unregularized cost 2.5027780532836914 and regularization cost 5.21371134709625e-07
+2022-09-12 17:41:03,892 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.24584336578845978, with unregularized cost 0.245842844247818 and regularization cost 5.217152079239895e-07
+2022-09-12 17:41:03,920 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.0746806338429451, with unregularized cost 0.07468011230230331 and regularization cost 5.21992319590936e-07
+2022-09-12 17:41:03,947 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.038812797516584396, with unregularized cost 0.03881227597594261 and regularization cost 5.221867240834399e-07
+2022-09-12 17:41:03,977 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.021498985588550568, with unregularized cost 0.021498464047908783 and regularization cost 5.223292873779428e-07
+2022-09-12 17:41:04,013 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.009141703136265278, with unregularized cost 0.009141180664300919 and regularization cost 5.224524102231953e-07
+2022-09-12 17:41:04,042 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.0039259400218725204, with unregularized cost 0.003925417549908161 and regularization cost 5.226180519457557e-07
+2022-09-12 17:41:04,071 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.0012595431180670857, with unregularized cost 0.001259020296856761 and regularization cost 5.227855126577197e-07
+2022-09-12 17:41:04,103 mloop.neuralnet      DEBUG    Fit neural network with total training cost 0.0003252348687965423, with unregularized cost 0.00032471196027472615 and regularization cost 5.229122734817793e-07
+2022-09-12 17:41:04,139 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.222453182796016e-05, with unregularized cost 5.1701579650398344e-05 and regularization cost 5.229513249105366e-07
+2022-09-12 17:41:04,167 mloop.neuralnet      DEBUG    Run trained for: 0.5084455013275146
+2022-09-12 17:41:04,170 mloop.neuralnet      DEBUG    Loss 2.2297414e-05, average loss 0.0
+2022-09-12 17:41:04,172 mloop.neuralnet      DEBUG    Training with threshold 1.7837931227404625e-05
+2022-09-12 17:41:04,177 mloop.neuralnet      DEBUG    Fit neural network with total training cost 2.315119854756631e-05, with unregularized cost 2.262824091303628e-05 and regularization cost 5.229582598076377e-07
+2022-09-12 17:41:04,208 mloop.neuralnet      DEBUG    Fit neural network with total training cost 2.2428530428442173e-05, with unregularized cost 2.1905569155933335e-05 and regularization cost 5.229608177614864e-07
+2022-09-12 17:41:04,240 mloop.neuralnet      DEBUG    Fit neural network with total training cost 9.357725502923131e-06, with unregularized cost 8.834771506371908e-06 and regularization cost 5.229542239248985e-07
+2022-09-12 17:41:04,270 mloop.neuralnet      DEBUG    Fit neural network with total training cost 1.7270589296458638e-06, with unregularized cost 1.2041115269312286e-06 and regularization cost 5.229474027146352e-07
+2022-09-12 17:41:04,301 mloop.neuralnet      DEBUG    Fit neural network with total training cost 1.0658442306521465e-06, with unregularized cost 5.429020575320465e-07 and regularization cost 5.229421731201e-07
+2022-09-12 17:41:04,334 mloop.neuralnet      DEBUG    Fit neural network with total training cost 7.324559305743605e-07, with unregularized cost 2.095160169801602e-07 and regularization cost 5.229398993833456e-07
+2022-09-12 17:41:04,374 mloop.neuralnet      DEBUG    Fit neural network with total training cost 6.438277750930865e-07, with unregularized cost 1.208882309811088e-07 and regularization cost 5.229395583228325e-07
+2022-09-12 17:41:04,411 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.6274183179994e-07, with unregularized cost 3.980147411652979e-08 and regularization cost 5.229403541306965e-07
+2022-09-12 17:41:04,447 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.274465593174682e-07, with unregularized cost 4.505322337422513e-09 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,482 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.261061915007303e-07, with unregularized cost 3.1645939202462614e-09 and regularization cost 5.229416046859114e-07
+2022-09-12 17:41:04,512 mloop.neuralnet      DEBUG    Run trained for: 0.33985424041748047
+2022-09-12 17:41:04,514 mloop.neuralnet      DEBUG    Loss 5.2511996e-07, average loss 0.0
+2022-09-12 17:41:04,516 mloop.neuralnet      DEBUG    Training with threshold 4.200959665467963e-07
+2022-09-12 17:41:04,521 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.251929451333126e-07, with unregularized cost 2.2513253483680273e-09 and regularization cost 5.229416046859114e-07
+2022-09-12 17:41:04,552 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.233847559793503e-07, with unregularized cost 4.433617917243282e-10 and regularization cost 5.22941377312236e-07
+2022-09-12 17:41:04,577 mloop.controllers    INFO     cost -0.6905525412508107 +/- 0.0
+2022-09-12 17:41:04,578 mloop.controllers    INFO     Run:13 (trainer)
+2022-09-12 17:41:04,580 mloop.controllers    INFO     params [-0.38487899  1.70315087 -1.12175063]
+2022-09-12 17:41:04,587 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.230606916484248e-07, with unregularized cost 1.1934728205709177e-10 and regularization cost 5.229413204688171e-07
+2022-09-12 17:41:04,625 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229758812674845e-07, with unregularized cost 3.461655267988917e-11 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,661 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229717316979077e-07, with unregularized cost 3.049266047994159e-11 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,695 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229494490777142e-07, with unregularized cost 8.201158502307848e-12 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,728 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229424573371944e-07, with unregularized cost 1.1793811370217067e-12 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,764 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229420025898435e-07, with unregularized cost 7.393290623811111e-13 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,801 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229416046859114e-07, with unregularized cost 3.5305219576835245e-13 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,841 mloop.neuralnet      DEBUG    Fit neural network with total training cost 5.229414341556549e-07, with unregularized cost 1.585814812798958e-13 and regularization cost 5.229412636253983e-07
+2022-09-12 17:41:04,872 mloop.neuralnet      DEBUG    Run trained for: 0.3550417423248291
+2022-09-12 17:41:04,874 mloop.neuralnet      DEBUG    Loss 5.2294143e-07, average loss 0.0
+2022-09-12 17:41:04,874 mloop.neuralnet      DEBUG    Total trained for: 1.2981927394866943
+2022-09-12 17:41:04,945 mloop.controllers    WARNING  !!! Do not give the interrupt signal again !!! 
+ M-LOOP stopped with keyboard interupt or system exit. Please wait at least 1 minute for the threads to safely shut down. 
+ 
+2022-09-12 17:41:04,946 mloop.controllers    WARNING  Closing down controller.
+2022-09-12 17:41:04,947 mloop.controllers    DEBUG    ML learner end set.
+2022-09-12 17:41:05,009 mloop.controllers    DEBUG    ML learner joined
+2022-09-12 17:41:05,010 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-12 17:41:05,010 mloop.controllers    DEBUG    Learner end event set.
+2022-09-12 17:41:05,011 mloop.controllers    DEBUG    Interface end event set.
+2022-09-12 17:41:05,580 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-12 17:41:05,581 mloop.interfaces     DEBUG    Interface ended
+2022-09-12 17:41:06,583 mloop.controllers    DEBUG    Learner joined.
+2022-09-12 17:41:06,584 mloop.controllers    DEBUG    Interface joined.
+2022-09-12 17:41:06,590 mloop.controllers    INFO     Optimization ended because:
+2022-09-12 17:41:06,591 mloop.controllers    INFO     Results:
+2022-09-12 17:41:06,591 mloop.controllers    INFO     	* Best parameters found:[-0.11080299  0.60388701  0.27254184]
+2022-09-12 17:41:06,592 mloop.controllers    INFO     	* Best cost returned:-2.3984276361355406 +/- 0.0
+2022-09-12 17:41:06,592 mloop.controllers    INFO     	* Best run number:1
+2022-09-12 17:41:06,592 mloop.controllers    INFO     M-LOOP Done.
+2022-09-12 17:41:06,593 mloop.visualizations DEBUG    Creating controller visualizations.
+2022-09-12 17:41:06,699 mloop.visualizations DEBUG    Creating learner visualizations.
