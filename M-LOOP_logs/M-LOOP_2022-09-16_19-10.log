@@ -1,0 +1,91 @@
+2022-09-16 19:10:23,057 mloop                INFO     M-LOOP version 3.3.1
+2022-09-16 19:10:23,058 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-16 19:10:23,058 mloop.interfaces     DEBUG    Creating interface.
+2022-09-16 19:10:23,100 mloop.controllers    DEBUG    Controller init completed.
+2022-09-16 19:10:23,101 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-16 19:10:23,101 mloop.learners.1     DEBUG    Random learner init completed.
+2022-09-16 19:10:23,102 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-16 19:10:23,103 mloop.controllers    INFO     Optimization started.
+2022-09-16 19:10:23,105 mloop.learners.1     DEBUG    Starting Random Learner
+2022-09-16 19:10:23,106 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-16 19:10:23,106 mloop.controllers    DEBUG    ML learner started.
+2022-09-16 19:10:23,250 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-16 19:10:23,250 mloop.controllers    INFO     Run:1 (training)
+2022-09-16 19:10:23,252 mloop.controllers    INFO     params [10.    5.    3.    2.3   2.21  0.15  0.1   0.15  0.1   0.05  0.    0.
+  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
+  0.  ]
+2022-09-16 19:11:33,560 mloop.controllers    INFO     cost -2.0893748603429985 +/- 0.0
+2022-09-16 19:11:33,561 mloop.controllers    INFO     Run:2 (training)
+2022-09-16 19:11:33,562 mloop.controllers    INFO     params [ 9.00533894 13.17785096 14.82590115  7.08593007  8.22942678  0.02761526
+  0.04787998  0.03524749  0.16834471  0.02766311 -3.14701646 -6.42987299
+  4.4105956   3.21189978 -5.14403651  3.8071747  -1.9924603   4.08555198
+  5.83221686  1.75225015 -7.82715352  4.59276226 -4.06901986 -0.7731954
+  4.99924357]
+2022-09-16 19:12:38,390 mloop.controllers    INFO     cost -0.011968410658766424 +/- 0.0
+2022-09-16 19:12:38,390 mloop.controllers    INFO     Run:3 (training)
+2022-09-16 19:12:38,392 mloop.controllers    INFO     params [ 3.33167603e+00  8.67329295e+00  6.01440231e+00  1.38942566e+01
+  8.40861029e+00  8.56463952e-02  1.23376392e-02  1.61973610e-01
+  2.41697027e-02  4.58236015e-02 -1.21668814e+00  1.97393852e+00
+  4.92654602e+00  1.85683210e-01  9.72731308e-01 -3.62514033e+00
+  3.07063601e+00  2.67516237e+00  7.10321975e+00 -4.73141156e+00
+  5.43024542e+00 -6.44119747e+00  7.58690302e+00 -5.79663202e+00
+ -5.71261122e+00]
+2022-09-16 19:13:46,804 mloop.controllers    INFO     cost -0.010478208802080304 +/- 0.0
+2022-09-16 19:13:46,805 mloop.controllers    INFO     Run:4 (training)
+2022-09-16 19:13:46,806 mloop.controllers    INFO     params [ 1.37949062e+01  1.06348032e+01  2.12092794e+00  1.52333773e+01
+  6.23050118e+00  5.55373441e-02  6.08866158e-02  6.98771876e-02
+  4.15838729e-02  1.13429479e-03  5.69143821e+00  6.78899369e+00
+ -3.74494543e+00  3.15872271e+00 -2.51416969e+00  7.49875253e+00
+ -6.14282488e+00 -1.72984702e-02 -7.72481885e+00 -4.17174176e+00
+ -1.95413204e+00  2.64183059e+00 -6.23105296e-01  1.37305806e+00
+ -6.02524750e+00]
+2022-09-16 19:14:46,958 mloop.controllers    INFO     cost -0.07885667286627865 +/- 0.0
+2022-09-16 19:14:46,959 mloop.controllers    INFO     Run:5 (training)
+2022-09-16 19:14:46,960 mloop.controllers    INFO     params [ 7.87855546 15.89690779 18.19462937  4.72832149  9.84601335  0.07274976
+  0.0598344   0.11684369  0.07318781  0.15718051  7.11610815  0.78615675
+  1.13081027 -4.69941982 -7.93712895 -2.71584636 -6.24959566  1.85626051
+  3.86376263  0.72516274 -3.65302788  3.64246328 -5.44960466  6.85454213
+  5.55416483]
+2022-09-16 19:15:51,461 mloop.interfaces     DEBUG    Interface ended
+2022-09-16 19:15:52,009 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "C:\Users\SimulationComputer\Anaconda3\lib\site-packages\mloop\interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File "c:/Users/SimulationComputer/MLOOP/MLOptimization/EvapML.py", line 52, in get_next_cost_dict
+    self.Utility.CheckCompletion()
+
+  File "c:/Users/SimulationComputer/MLOOP/MLOptimization/EvapML.py", line 101, in CheckCompletion
+    RunNumber = self.getRunNumber(self.PrevDir)
+
+  File "c:/Users/SimulationComputer/MLOOP/MLOptimization/EvapML.py", line 127, in getRunNumber
+    mat = io.loadmat(dir)
+
+  File "C:\Users\SimulationComputer\Anaconda3\lib\site-packages\scipy\io\matlab\mio.py", line 226, in loadmat
+    matfile_dict = MR.get_variables(variable_names)
+
+  File "C:\Users\SimulationComputer\Anaconda3\lib\site-packages\scipy\io\matlab\mio5.py", line 312, in get_variables
+    hdr, next_position = self.read_var_header()
+
+  File "C:\Users\SimulationComputer\Anaconda3\lib\site-packages\scipy\io\matlab\mio5.py", line 259, in read_var_header
+    raise ValueError("Did not read any bytes")
+
+2022-09-16 19:15:52,010 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-09-16 19:15:52,010 mloop.controllers    DEBUG    ML learner end set.
+2022-09-16 19:15:52,905 mloop.controllers    DEBUG    ML learner joined
+2022-09-16 19:15:52,905 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-16 19:15:52,906 mloop.controllers    DEBUG    Learner end event set.
+2022-09-16 19:15:52,906 mloop.controllers    DEBUG    Interface end event set.
+2022-09-16 19:15:52,991 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-16 19:15:53,991 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-09-16 19:15:53,991 mloop.learners.1     DEBUG    Ended Random Learner
+2022-09-16 19:15:53,991 mloop.controllers    DEBUG    Learner joined.
+2022-09-16 19:15:53,991 mloop.controllers    DEBUG    Interface joined.
+2022-09-16 19:15:53,994 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-09-16 19:15:53,994 mloop.controllers    INFO     Optimization ended because:
+2022-09-16 19:15:53,994 mloop.controllers    INFO     	* Error occurred.
+2022-09-16 19:15:53,994 mloop.controllers    INFO     Results:
+2022-09-16 19:15:53,995 mloop.controllers    INFO     	* Best parameters found:[10.    5.    3.    2.3   2.21  0.15  0.1   0.15  0.1   0.05  0.    0.
+  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
+  0.  ]
+2022-09-16 19:15:53,995 mloop.controllers    INFO     	* Best cost returned:-2.0893748603429985 +/- 0.0
+2022-09-16 19:15:53,995 mloop.controllers    INFO     	* Best run number:1

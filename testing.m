@@ -10,34 +10,34 @@ fb=0e6;%[Hz] trap bottom frequency
 % tau = [5,5]; %(f0 - fcut)./cutrate; %[s][8,11,10];[6, 5];
 % amp=[0.6,0.6]; %[V][0.7,0.8,0.8];[0.8,0.8,0.8];
 
-% The following are for Ioffe coil evap
-fcut=[22, 15].*1e6;% [25,15,3].*1e6;[22,20].*1e6;
-tau = [4, 3]; %(f0 - fcut)./cutrate; %[s][8,11,10];[6, 5];
-amp = [0.4, 0.15].*0.5; %[V][0.7,0.8,0.8];[0.8,0.8,0.8]; [0.4 0.15]
 
-if min(fcut)<=fb
-    error('fcut should > fb');
-end
-if max(fcut)>=f0
-    error('fcut should < f0');
-end
+fileloc  = "N:\KRbLab\M_loop\MLoopParam\param.mat";
 
-fstart=[f0 fcut(1:length(fcut)-1)];
-% tstage=-tau.*log((fcut-fb)./(fstart-fb));
-tstage=tau;
 
-if sum(tstage)>=100
+fcut = cell2mat(struct2cell(load(fileloc, 'fcut'))).*1e6;
+
+tTotal = cell2mat(struct2cell(load(fileloc, 'tTotal')));
+tau = tTotal/length(fcut)*ones(1, length(fcut));
+fstart=[f0 fcut(1:length(fcut))];
+
+amp = cell2mat(struct2cell(load(fileloc, 'amp')));
+A = cell2mat(struct2cell(load(fileloc, 'A')));
+
+% fcut = [10, 5, 3, 2.3, 2.24].*1e6; %2.17
+% tau = [3.5, 4, 5, 5, 2]; %tau = [3.5, 4, 5, 5, 5];
+% amp = 1.25.*[0.15, 0.1, 0.15, 0.1, 0.05];%[V]
+if sum(tau)>=100
     error('Too long evaporation time!');
 end
 disp(fstart)
-disp(['RF evap takes ',num2str(sum(tstage)),' s']);
+disp(['RF evap takes ',num2str(sum(tau)),' s']);
 disp(['RF stops at ',num2str(fcut(length(fcut))/1e6),' MHz']);
 
 F = [];
 T = [];
-disp(tstage)
+disp(tau)
 
-taustep = [0, tstage];
+taustep = [0, tau];
 
 for i=1:length(tau)
 
@@ -64,7 +64,7 @@ plot(T,F)
 
 % Make sure the RF evaporation time is >= the cart return time
 tRetTrip = 4281e-3; % for "slow" return using "transfer_variable_wait_5.ab"
-func(1)
+
 
 
 % s.addStep(@MakeRbMOT);

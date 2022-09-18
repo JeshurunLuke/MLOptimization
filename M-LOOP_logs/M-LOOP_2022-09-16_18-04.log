@@ -1,0 +1,112 @@
+2022-09-16 18:04:19,329 mloop                INFO     M-LOOP version 3.3.1
+2022-09-16 18:04:19,329 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-16 18:04:19,329 mloop.interfaces     DEBUG    Creating interface.
+2022-09-16 18:04:19,345 mloop.controllers    DEBUG    Controller init completed.
+2022-09-16 18:04:19,346 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-16 18:04:19,346 mloop.learners.1     DEBUG    Random learner init completed.
+2022-09-16 18:04:19,347 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-16 18:04:19,348 mloop.controllers    INFO     Optimization started.
+2022-09-16 18:04:19,350 mloop.learners.1     DEBUG    Starting Random Learner
+2022-09-16 18:04:19,350 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-16 18:04:19,350 mloop.controllers    DEBUG    ML learner started.
+2022-09-16 18:04:19,476 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-16 18:04:19,477 mloop.controllers    INFO     Run:1 (training)
+2022-09-16 18:04:19,478 mloop.controllers    INFO     params [10.    5.    3.    2.3   2.21  0.15  0.1   0.15  0.1   0.05  0.    0.
+  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
+  0.  ]
+2022-09-16 18:04:19,503 mloop.interfaces     DEBUG    Interface ended
+2022-09-16 18:04:20,480 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "C:\Users\SimulationComputer\Anaconda3\lib\site-packages\mloop\interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File ".\EvapML.py", line 47, in get_next_cost_dict
+    toFile = raw_input("Write what you want into the field")
+
+2022-09-16 18:04:20,481 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-09-16 18:04:20,481 mloop.controllers    DEBUG    ML learner end set.
+2022-09-16 18:04:27,738 mloop.controllers    DEBUG    ML learner joined
+2022-09-16 18:04:27,738 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-16 18:04:27,738 mloop.controllers    DEBUG    Learner end event set.
+2022-09-16 18:04:27,738 mloop.controllers    DEBUG    Interface end event set.
+2022-09-16 18:04:28,353 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-16 18:04:29,353 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-09-16 18:04:29,353 mloop.learners.1     DEBUG    Ended Random Learner
+2022-09-16 18:04:29,353 mloop.controllers    DEBUG    Learner joined.
+2022-09-16 18:04:29,353 mloop.controllers    DEBUG    Interface joined.
+2022-09-16 18:04:29,355 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-09-16 18:04:29,355 mloop.controllers    INFO     Optimization ended because:
+2022-09-16 18:04:29,356 mloop.controllers    INFO     	* Error occurred.
+2022-09-16 18:04:29,356 mloop.controllers    INFO     Results:
+2022-09-16 18:04:29,356 mloop.controllers    INFO     	* Best parameters found:nan
+2022-09-16 18:04:29,356 mloop.controllers    INFO     	* Best cost returned:inf +/- nan
+2022-09-16 18:04:29,356 mloop.controllers    INFO     	* Best run number:nan
+2022-09-16 18:04:47,278 mloop                INFO     M-LOOP version 3.3.1
+2022-09-16 18:04:47,278 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-16 18:04:47,279 mloop.interfaces     DEBUG    Creating interface.
+2022-09-16 18:04:47,293 mloop.controllers    DEBUG    Controller init completed.
+2022-09-16 18:04:47,294 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-16 18:04:47,294 mloop.learners.1     DEBUG    Random learner init completed.
+2022-09-16 18:04:47,295 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-16 18:04:47,295 mloop.controllers    INFO     Optimization started.
+2022-09-16 18:04:47,296 mloop.learners.1     DEBUG    Starting Random Learner
+2022-09-16 18:04:47,297 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-16 18:04:47,297 mloop.controllers    DEBUG    ML learner started.
+2022-09-16 18:04:47,426 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-16 18:04:47,426 mloop.controllers    INFO     Run:1 (training)
+2022-09-16 18:04:47,427 mloop.controllers    INFO     params [10.    5.    3.    2.3   2.21  0.15  0.1   0.15  0.1   0.05  0.    0.
+  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
+  0.  ]
+2022-09-16 18:06:15,097 mloop.controllers    INFO     cost -2.5912522169729426 +/- 0.0
+2022-09-16 18:06:15,098 mloop.controllers    INFO     Run:2 (training)
+2022-09-16 18:06:15,099 mloop.controllers    INFO     params [11.24687275 16.59560533 14.40329083 10.18304848 19.88976884  0.10024951
+  0.09625325  0.16287068  0.11048066  0.08211467 -2.17197163  4.44828382
+ -7.82845524  6.42571954  6.18967203 -0.53538159  3.38694747  1.96910792
+ -2.04462139 -3.77681692 -5.11499264  5.23229968 -3.91421017 -5.87581371
+  1.2297617 ]
+2022-09-16 18:06:15,099 mloop.controllers    DEBUG    Starting ML optimization.
+2022-09-16 18:07:25,716 mloop.controllers    INFO     cost -2.9011405398783237 +/- 0.0
+2022-09-16 18:07:25,719 mloop.controllers    DEBUG    End training runs.
+2022-09-16 18:07:25,719 mloop.controllers    INFO     Controller finished. Closing down M-LOOP. Please wait a moment...
+2022-09-16 18:07:25,719 mloop.controllers    DEBUG    ML learner end set.
+2022-09-16 18:07:29,311 mloop.controllers    DEBUG    ML learner joined
+2022-09-16 18:07:29,311 mloop.controllers    DEBUG    Learner end event set.
+2022-09-16 18:07:29,311 mloop.controllers    DEBUG    Interface end event set.
+2022-09-16 18:07:29,717 mloop.interfaces     DEBUG    Interface ended
+2022-09-16 18:07:30,126 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-16 18:07:31,126 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-09-16 18:07:31,126 mloop.learners.1     DEBUG    Ended Random Learner
+2022-09-16 18:07:31,126 mloop.controllers    DEBUG    Learner joined.
+2022-09-16 18:07:31,126 mloop.controllers    DEBUG    Interface joined.
+2022-09-16 18:07:31,128 mloop.controllers    INFO     Optimization ended because:
+2022-09-16 18:07:31,129 mloop.controllers    INFO     	* Maximum number of runs reached.
+2022-09-16 18:07:31,129 mloop.controllers    INFO     Results:
+2022-09-16 18:07:31,129 mloop.controllers    INFO     	* Best parameters found:[11.24687275 16.59560533 14.40329083 10.18304848 19.88976884  0.10024951
+  0.09625325  0.16287068  0.11048066  0.08211467 -2.17197163  4.44828382
+ -7.82845524  6.42571954  6.18967203 -0.53538159  3.38694747  1.96910792
+ -2.04462139 -3.77681692 -5.11499264  5.23229968 -3.91421017 -5.87581371
+  1.2297617 ]
+2022-09-16 18:07:31,129 mloop.controllers    INFO     	* Best cost returned:-2.9011405398783237 +/- 0.0
+2022-09-16 18:07:31,130 mloop.controllers    INFO     	* Best run number:2
+2022-09-16 18:07:31,130 mloop.controllers    INFO     	* Predicted best parameters:[ 1.785       1.785       1.785      20.          1.785       0.12122365
+  0.          0.2         0.03193091  0.2        -8.          8.
+ -8.         -8.         -8.         -6.81288989  8.         -8.
+ -8.         -8.          8.         -8.         -8.          8.
+  8.        ]
+2022-09-16 18:07:31,130 mloop.controllers    INFO     	* Predicted best cost:-10.152118751688535
+2022-09-16 18:07:31,130 mloop.controllers    INFO     M-LOOP Done.
+2022-09-16 18:07:31,148 mloop.visualizations DEBUG    Creating controller visualizations.
+2022-09-16 18:07:31,335 mloop.visualizations DEBUG    Creating learner visualizations.
+2022-09-16 18:07:31,340 mloop.visualizations DEBUG    Creating neural net visualizer.
+2022-09-16 18:07:31,342 mloop.learners.3     DEBUG    Learner init completed.
+2022-09-16 18:07:31,342 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-16 18:07:31,342 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-16 18:07:31,342 mloop.neuralnet      INFO     Initialising neural network impl
+2022-09-16 18:07:31,343 mloop.neuralnet      INFO     Constructing net
+2022-09-16 18:07:32,203 mloop.neuralnet      DEBUG    Finished constructing net in: 0.8606967926025391
+2022-09-16 18:07:32,204 mloop.neuralnet      INFO     Loading neural network
+2022-09-16 18:07:32,310 mloop.neuralnet      INFO     Constructing net
+2022-09-16 18:07:33,137 mloop.neuralnet      DEBUG    Finished constructing net in: 0.8268170356750488
+2022-09-16 18:07:33,137 mloop.neuralnet      INFO     Loading neural network
+2022-09-16 18:07:33,220 mloop.neuralnet      INFO     Constructing net
+2022-09-16 18:07:34,066 mloop.neuralnet      DEBUG    Finished constructing net in: 0.8457620143890381
+2022-09-16 18:07:34,066 mloop.neuralnet      INFO     Loading neural network

@@ -1,0 +1,37 @@
+2022-09-16 18:20:12,674 mloop                INFO     M-LOOP version 3.3.1
+2022-09-16 18:20:12,674 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-16 18:20:12,674 mloop.interfaces     DEBUG    Creating interface.
+2022-09-16 18:20:12,726 mloop.controllers    DEBUG    Controller init completed.
+2022-09-16 18:20:12,727 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-16 18:20:12,728 mloop.learners.1     DEBUG    Random learner init completed.
+2022-09-16 18:20:12,728 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-16 18:20:12,729 mloop.controllers    INFO     Optimization started.
+2022-09-16 18:20:12,730 mloop.learners.1     DEBUG    Starting Random Learner
+2022-09-16 18:20:12,731 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-16 18:20:12,731 mloop.controllers    DEBUG    ML learner started.
+2022-09-16 18:20:12,854 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-16 18:20:12,854 mloop.controllers    INFO     Run:1 (training)
+2022-09-16 18:20:12,855 mloop.controllers    INFO     params [10.    5.    3.    2.3   2.21  0.15  0.1   0.15  0.1   0.05  0.    0.
+  0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.    0.
+  0.  ]
+2022-09-16 18:21:13,200 mloop.controllers    INFO     cost -2.8826810720853895 +/- 0.0
+2022-09-16 18:21:13,201 mloop.controllers    INFO     Run:2 (training)
+2022-09-16 18:21:13,203 mloop.controllers    INFO     params [11.72215494 15.2691686   7.7489046  15.64658703 13.96366359  0.02928721
+  0.17469625  0.11576593  0.12259717  0.01931019  0.77806956 -0.76689177
+  6.96580275 -3.24253816 -7.89272656 -4.45266166 -1.4360339  -4.54642813
+  2.23709665  5.37656114 -6.79454926  1.39272692  5.9645604  -4.85293091
+  6.80370192]
+2022-09-16 18:21:13,203 mloop.controllers    DEBUG    Starting ML optimization.
+2022-09-16 18:21:34,838 mloop.controllers    WARNING  !!! Do not give the interrupt signal again !!! 
+ M-LOOP stopped with keyboard interupt or system exit. Please wait at least 1 minute for the threads to safely shut down. 
+ 
+2022-09-16 18:21:34,838 mloop.controllers    WARNING  Closing down controller.
+2022-09-16 18:21:34,839 mloop.controllers    DEBUG    ML learner end set.
+2022-09-16 18:21:35,197 mloop.controllers    DEBUG    ML learner joined
+2022-09-16 18:21:35,197 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-16 18:21:35,197 mloop.controllers    DEBUG    Learner end event set.
+2022-09-16 18:21:35,197 mloop.controllers    DEBUG    Interface end event set.
+2022-09-16 18:21:35,226 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-16 18:21:36,227 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-09-16 18:21:36,227 mloop.learners.1     DEBUG    Ended Random Learner
+2022-09-16 18:21:36,227 mloop.controllers    DEBUG    Learner joined.

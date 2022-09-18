@@ -1,9 +1,5 @@
 function s = RFevap2MachineT(s1)
-if(~exist('s1','var'))
-    s = ExpSeq();
-else
-    s = s1;
-end
+
 % s.findDriver('FPGABackend').setTimeResolution(10e-3);%set the time stepsize
 
 
@@ -58,22 +54,22 @@ if min(fcut)<= fb
     
     error('fcut should > fb');
 end
+
+
 if max(fcut)>=f0
-    print(max(fcut))
+    disp(max(fcut))
 
     error('fcut should < f0');
 end
 
 fstart=[f0 fcut(1:length(fcut))];
-m = MemoryMap;
-m.Data(1).RFcut = fcut(length(fcut))/1e6;
-
+F = []
+T = []
 set = 0;
+taustep = [0, tau];
+
 for i=1:length(tau)
-    if i==1
-        s.add('FreqRFknife',f0);
-    end
-    s.add('AmpRFknife',amp(i));
+
     %if i==1
     %    s.add('FreqRFknife',f0);
     %end
@@ -84,32 +80,25 @@ for i=1:length(tau)
     A3 = A(2 + set);
     A4 = A(3 + set);
     
-    s.wait(dt);
    % disp(tau(i))
     for j=1:Nj
         %f=(fstart(i)-fb).*exp(-j.*dt./tau(i))+fb;
         f = fstart(i) + (fstart(i+1) - fstart(i)).*j.*dt/tau(i) + A2.*j.*dt.*(j.*dt - tau(i)) + A3.*j.*dt.*(j.*dt-tau(i)).*(j.*dt + 0.5*tau(i)) + A4.*j.*dt.*(j.*dt + 2/3*tau(i)).*(j.*dt + 1/3*tau(i));
-
-        s.addStep(dt)...
-         .add('FreqRFknife',f);
+        F = [F, f]; %If speed problems aloocate
+        T = [T, taustep(i) + j*dt];
     end
     set = set + 3;
 end
+plot(T, F)
 %disp(min(F)/1E6)
 %plot(T, F)
 %%------turn off RF knife------
-s.add('FreqRFknife',0e6);
-s.add('AmpRFknife',0.);
 
 % Make sure the RF evaporation time is >= the cart return time
 tRetTrip = 4281e-3; % for "slow" return using "transfer_variable_wait_5.ab"
-if sum(tau)<=tRetTrip
-    s.wait(tRetTrip - sum(tau));
-end
 
-if(~exist('s1','var'))
-    s.run();
-end
+
+
 
 
 

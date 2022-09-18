@@ -8,20 +8,15 @@ import numpy as np
 import time
 
 alpha = 0.5
-Time = 16.0
-
-
-ARF = [0.15, 0.1, 0.15, 0.1, 0.05]
-Amplitudes = [ 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-
+Time = 16
 
 import datetime
 
 
 #File path location
-summaryDatLoc = "N:\KRbLab\M_loop\\2022_09\\"
-writeFileLoc = "N:\KRbLab\M_loop\MLoopParam\param.mat"
-CountFolderDirectory = "N:\KRbLab\M_loop\Counter"
+summaryDatLoc = os.getcwd() + "\2022-05-05"
+writeFileLoc = os.getcwd() + "param.mat"
+
 
 #Declare your custom class that inherits from the Interface class
 class CustomInterface(mli.Interface):
@@ -47,20 +42,16 @@ class CustomInterface(mli.Interface):
 
         #Writes param into param.mat which RFevap2Machine.m reads
         self.Utility.write(self.count, params) 
-        
-        file1 = open(CountFolderDirectory + f"\count{self.count}" +".txt", "w")
-        toFile = "Write what you want into the field"
-        file1.write(toFile)
-        file1.close()
 
-        print("Waiting for Data")
+
+        print(f"Searching: {self.count}")
         self.Utility.CheckCompletion()
 
 
         dataOut = self.Utility.read()
         cost = costFinder(dataOut)
 
-        print("================================================")
+
         #The evaluation will always be a success
         bad = False
 
@@ -71,21 +62,10 @@ class CustomInterface(mli.Interface):
         return cost_dict
 def costFinder(data): #Background N Get File structure for more accurate
     dataRb = data['dataRb']
-
-    N1 = 7376000.0/15 #or 7376000.0/100
+    N1 = 100
     pkOD, NRb = float(dataRb[-1][3]), float(dataRb[-1][8])
-    if NRb <= 0:
-        return 0
-    else:
-        print("Cost Function Param")
-        print(pkOD, NRb)
-        Fn = 2/(1 + np.exp(N1/NRb))
-        return -Fn*pkOD**3*NRb**(alpha-9/5)
-def clear():
-
-    for f in os.listdir(CountFolderDirectory):
-        os.remove(os.path.join(CountFolderDirectory, f))
- 
+    Fn = 2/(1 + np.exp(N1/NRb))
+    return -Fn*pkOD**3*NRb**(alpha-9/5)
 class Utils():
     def __init__(self):
         x = datetime.datetime.now()
@@ -95,77 +75,50 @@ class Utils():
 
     def write(self, count, params):
         #Input Fcut (length = 5) tTotal (scalar) amp (length = 5) A (length = 15)
-        io.savemat(writeFileLoc,{'count': count, 'fcut':params[0:5], 'tTotal': Time, 'amp': ARF, 'A': params[5:len(params)]})
+        io.savemat(writeFileLoc,{'count': count, 'fcut':params[0:5], 'tTotal': Time, 'amp': params[5:10], 'A': params[10:len(params)]})
 
     def read(self): #Get File structure for more accurate
         mat = io.loadmat(self.SumFileLoc())
         return mat
     def CheckCompletion(self):
         NotComplete = True
+        i = 1
         while NotComplete :
             x = datetime.datetime.now()
             currentDate = int(x.strftime("%d"))
             RunNumber = self.getRunNumber(self.PrevDir)
             if RunNumber > self.RunNumberStart:
-                print("RunNumber")
-                print(RunNumber)
-                print("Prev NumberStart")
-                print(self.RunNumberStart)
                 self.RunNumberStart = RunNumber
                 NotComplete = False
-            if currentDate > self.prevDate: #Add wait time and retry 
-                print("MidNight")
-                self.UpdateFileLoc()
+            if currentDate > self.prevDate:
+                self.PrevDir = self.UpdateFileLoc()
+                self.RunNumberStart = self.getRunNumber(self.PrevDir)
                 NotComplete = False
+            i +=1
+            if i == 10:
+                break
             time.sleep(0.1)
     def UpdateFileLoc(self):
         x = datetime.datetime.now()
         currentDate = int(x.strftime("%d"))
         self.prevDate = currentDate
-        NotExist = True
-        while  NotExist:
-            RunNumber = self.getRunNumber(self.PrevDir)
+        self.RunNumberStart = 0
 
+        while self.RunNumberStart == 0:
             if os.path.isfile(self.SumFileLoc()):
-                self.PrevDir = self.SumFileLoc()
-                self.RunNumberStart = self.getRunNumber(self.PrevDir)
-                NotExist = False
-            elif RunNumber > self.RunNumberStart:
-                self.RunNumberStart = RunNumber
-                time.sleep(60)
-                self.PrevDir = self.SumFileLoc()
-                NotExist = False
-
-
-
-
-
-
+                return self.SumFileLoc()
     def SumFileLoc(self): #Also restarts run Prev Number
         x = datetime.datetime.now()
-        pathSumFile = summaryDatLoc +  x.strftime("%G") + '-' + x.strftime("%m") + '-' + x.strftime("%d") + "\summary_data_backup.mat"	
+        pathSumFile = summaryDatLoc + "\summary_data_backup.mat"	
         
 
         return pathSumFile
 
     def getRunNumber(self, dir):
-        check = 0
-        while check == 0:
-            if(os.path.isfile(dir)):
+        mat = io.loadmat(dir)
+        dataRb = mat['dataRb']
+        return float(dataRb[-1][0])
 
-                mat = None
-                while mat is None:
-                    try:
-                        # connect
-                        mat = io.loadmat(dir)
-                    except:
-                        print("Attempting")
-
-                        pass
-                dataRb = mat['dataRb']
-
-                return float(dataRb[-1][0])
-            time.sleep(0.1)
 def main():
     #M-LOOP can be run with three commands
     
@@ -174,39 +127,27 @@ def main():
     #Next create the controller. Provide it with your interface and any options you want to set
     
     #Specific: Machine Learning Type: Neural Net
-
-
-    #Fitting all parameters
-    '''
     init = [10, 5, 3, 2.3, 2.21, 0.15, 0.1, 0.15, 0.1, 0.05, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] #Check Init
-    minB= [1.786, 1.786, 1.786, 1.786, 1.786, 0, 0, 0, 0, 0, -8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8]
-    maxB = [19.9, 19.9, 19.9, 19.9, 19.9, 0.2, 0.2, 0.2, 0.2, 0.2, 8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8]
-    '''
+    minB= [1.785, 1.785, 1.785, 1.785, 1.785, 0, 0, 0, 0, 0, -8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8]
+    maxB = [20, 20, 20, 20, 20, 0.5, 0.5, 0.5, 0.5, 0.5, 8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8]
 
-    #Fitting just the frequencies
-    #init = [10, 5, 3, 2.3, 2.21]
-    init = [10.54119461,  4.9748205,    3.25308527,   2.06068179,   1.84569306, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    minB= [1.786, 1.786, 1.786, 1.786, 1.786, -8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8]
-    maxB = [19.9, 19.9, 19.9, 19.9, 19.9, 8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8]
-    clear()
+
 
     controller = mlc.create_controller(interface, 
                                        controller_type = 'neural_net',
                                        no_delay = False, 
-                                       max_num_runs = 800,
-                                    
+                                       max_num_runs = 4,
                                        #target_cost = -2.99,
                                        num_params = len(init), 
                                        min_boundary =  minB,
                                        max_boundary =  maxB,
-                                       num_training_runs = 100, 
+                                       num_training_runs = 2, 
                                        first_params = init, 
                                        training_type = 'random')
                                        
     #To run M-LOOP and find the optimal parameters just use the controller method optimize
     controller.optimize()
     
-    clear()
     #The results of the optimization will be saved to files and can also be accessed as attributes of the controller.
     print('Best parameters found:')
     print(controller.best_params)
