@@ -1,0 +1,91 @@
+2022-09-18 14:06:05,772 mloop                INFO     M-LOOP version 3.3.1
+2022-09-18 14:06:05,773 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-18 14:06:05,773 mloop.interfaces     DEBUG    Creating interface.
+2022-09-18 14:06:05,774 mloop.controllers    DEBUG    Controller init completed.
+2022-09-18 14:06:05,775 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-18 14:06:05,775 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-18 14:06:05,776 mloop.controllers    INFO     Optimization started.
+2022-09-18 14:06:05,778 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-18 14:06:05,778 mloop.controllers    DEBUG    ML learner started.
+2022-09-18 14:06:05,892 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-18 14:06:05,892 mloop.controllers    INFO     Run:1 (training)
+2022-09-18 14:06:05,894 mloop.controllers    INFO     params [ 1.88509052e+01  1.21913224e+01  7.13687313e+00  1.38123770e+01
+  1.15046144e+01  1.02633332e+01  1.15648114e-01  1.73530846e-01
+  3.29546614e-01  4.48134168e-02  3.78309639e-01 -6.81154469e+00
+  4.78106348e+00  1.40014641e+00  6.65699941e+00 -6.68667686e-03
+  3.48858359e+00  5.19116593e+00 -4.93300938e+00  3.64569350e+00
+ -2.88504331e+00  7.76925105e+00  3.53674515e+00  1.24029403e+00
+ -7.06193302e+00 -6.78601866e+00]
+2022-09-18 14:06:05,997 mloop.interfaces     DEBUG    Interface ended
+2022-09-18 14:06:06,898 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "C:\Users\jeshu\anaconda3\lib\site-packages\mloop\interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File "c:/Users/jeshu/Documents/Harvard/Labs/NiLabRotation/MLOptimization/testML.py", line 58, in get_next_cost_dict
+    self.UpdateDic(self.count, params, cost)
+
+  File "c:/Users/jeshu/Documents/Harvard/Labs/NiLabRotation/MLOptimization/testML.py", line 38, in UpdateDic
+    self.save()
+
+2022-09-18 14:06:06,899 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-09-18 14:06:06,900 mloop.controllers    DEBUG    ML learner end set.
+2022-09-18 14:06:12,719 mloop.controllers    DEBUG    ML learner joined
+2022-09-18 14:06:12,720 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-18 14:06:12,720 mloop.controllers    DEBUG    Learner end event set.
+2022-09-18 14:06:12,721 mloop.controllers    DEBUG    Interface end event set.
+2022-09-18 14:06:12,822 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-18 14:06:13,835 mloop.controllers    DEBUG    Learner joined.
+2022-09-18 14:06:13,835 mloop.controllers    DEBUG    Interface joined.
+2022-09-18 14:06:13,838 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-09-18 14:06:13,839 mloop.controllers    INFO     Optimization ended because:
+2022-09-18 14:06:13,839 mloop.controllers    INFO     	* Error occurred.
+2022-09-18 14:06:13,839 mloop.controllers    INFO     Results:
+2022-09-18 14:06:13,840 mloop.controllers    INFO     	* Best parameters found:nan
+2022-09-18 14:06:13,840 mloop.controllers    INFO     	* Best cost returned:inf +/- nan
+2022-09-18 14:06:13,840 mloop.controllers    INFO     	* Best run number:nan
+2022-09-18 14:06:27,414 mloop                INFO     M-LOOP version 3.3.1
+2022-09-18 14:06:27,414 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-18 14:06:27,414 mloop.interfaces     DEBUG    Creating interface.
+2022-09-18 14:06:27,415 mloop.controllers    DEBUG    Controller init completed.
+2022-09-18 14:06:27,416 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-18 14:06:27,417 mloop.learners.2     DEBUG    Learner init completed.
+2022-09-18 14:06:27,417 mloop.controllers    INFO     Optimization started.
+2022-09-18 14:06:27,419 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-09-18 14:06:27,419 mloop.controllers    DEBUG    ML learner started.
+2022-09-18 14:06:27,526 mloop.controllers    DEBUG    Starting training optimization.
+2022-09-18 14:06:27,526 mloop.controllers    INFO     Run:1 (training)
+2022-09-18 14:06:27,528 mloop.controllers    INFO     params [ 3.00235438  6.33718767  3.47189065 11.30222886 11.38055468 14.94384651
+  0.03744419  0.18652708  0.34657635  0.01899252  0.11383981 -0.79074483
+  5.37360976  6.04938288  4.19601379  5.59562604  2.98076915  6.03163258
+  2.5675061  -2.39717389 -5.69588335  0.71333993  6.50941491  4.30899783
+ -1.46630934 -6.54342478]
+2022-09-18 14:06:27,638 mloop.interfaces     DEBUG    Interface ended
+2022-09-18 14:06:28,537 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "C:\Users\jeshu\anaconda3\lib\site-packages\mloop\interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File "c:/Users/jeshu/Documents/Harvard/Labs/NiLabRotation/MLOptimization/testML.py", line 58, in get_next_cost_dict
+    self.UpdateDic(self.count, params, cost)
+
+  File "c:/Users/jeshu/Documents/Harvard/Labs/NiLabRotation/MLOptimization/testML.py", line 38, in UpdateDic
+    self.save()
+
+  File "c:/Users/jeshu/Documents/Harvard/Labs/NiLabRotation/MLOptimization/testML.py", line 40, in save
+    pd.DataFrame.from_dict(data=self.dict).to_csv('dict_file.csv', column =['count', 'param', 'cost'])
+
+2022-09-18 14:06:28,539 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-09-18 14:06:28,539 mloop.controllers    DEBUG    ML learner end set.
+2022-09-18 14:06:34,844 mloop.controllers    DEBUG    ML learner joined
+2022-09-18 14:06:34,845 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-09-18 14:06:34,845 mloop.controllers    DEBUG    Learner end event set.
+2022-09-18 14:06:34,845 mloop.controllers    DEBUG    Interface end event set.
+2022-09-18 14:06:35,470 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-09-18 14:06:36,480 mloop.controllers    DEBUG    Learner joined.
+2022-09-18 14:06:36,480 mloop.controllers    DEBUG    Interface joined.
+2022-09-18 14:06:36,481 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-09-18 14:06:36,482 mloop.controllers    INFO     Optimization ended because:
+2022-09-18 14:06:36,482 mloop.controllers    INFO     	* Error occurred.
+2022-09-18 14:06:36,482 mloop.controllers    INFO     Results:
+2022-09-18 14:06:36,483 mloop.controllers    INFO     	* Best parameters found:nan
+2022-09-18 14:06:36,483 mloop.controllers    INFO     	* Best cost returned:inf +/- nan
+2022-09-18 14:06:36,484 mloop.controllers    INFO     	* Best run number:nan

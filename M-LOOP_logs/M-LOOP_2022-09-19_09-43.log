@@ -1,0 +1,6 @@
+2022-09-19 09:43:56,752 mloop                INFO     M-LOOP version 3.3.1
+2022-09-19 09:43:56,752 mloop                DEBUG    M-LOOP Logger configured.
+2022-09-19 09:43:56,752 mloop.interfaces     DEBUG    Creating interface.
+2022-09-19 09:43:56,752 mloop.controllers    DEBUG    Controller init completed.
+2022-09-19 09:43:56,760 mloop.learners.1     DEBUG    Learner init completed.
+2022-09-19 09:43:56,764 mloop.learners.2     DEBUG    Learner init completed.

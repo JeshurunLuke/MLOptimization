@@ -1,5 +1,4 @@
 function Ttot = ABLTripTime(Magnification,Pquic,PIntOffset,PScienceOffset,Vel1,Vel2,ARate,DRate,stageNum,ABLTrajPlotFlag)
-%%%%------------------------Explanation of parameters---------------------
 % Ratio4f = 2.4;            ' conversion ratio of our 4f system
 % Pquic = 55.0;             ' QUIC trap position [mm]
 % PIntOffset = 0./Ratio4f;  % If stageNum > 1, put in PIntOffset;
@@ -11,7 +10,6 @@ function Ttot = ABLTripTime(Magnification,Pquic,PIntOffset,PScienceOffset,Vel1,V
 % DRate = 500;              ' decel rate [mm/s^2] < 13,000 mm/s^2 (tested), 200
 % stageNum = 1; % If stageNum > 1, put in PIntOffset;
 % ABLTrajPlotFlag = 1;    %0 mean not plot, 1 means plot
-%%%%------------------------------------------------------------------------
     PInt = Pquic + PIntOffset;
     Pscience = Pquic + PScienceOffset;	%	' Science chamber position [mm] <205 mm
 

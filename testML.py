@@ -6,13 +6,15 @@ __metaclass__ = type
 import mloop.interfaces as mli
 import mloop.controllers as mlc
 import mloop.visualizations as mlv
+from controller2learner import Convert2Learn
 
 #Other imports
 import numpy as np
 import time
+import pandas as pd
 
-minB  =  [1.785, 1.785, 1.785, 1.785, 1.785, 4, 0, 0, 0, 0, 0, -8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8]
-maxB = [20, 20, 20,  20, 20, 16, 0.5, 0.5, 0.5, 0.5, 0.5, 8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8]
+minB  =  [1.785, 1.785, 1.785]#, 1.785, 1.785, 4, 0, 0, 0, 0, 0, -8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8,-8]
+maxB = [20, 20, 20]#,  20, 20, 16, 0.5, 0.5, 0.5, 0.5, 0.5, 8, 8,8,8,8,8,8,8,8,8,8,8,8,8,8]
 
 
 #Declare your custom class that inherits from the Interface class
@@ -26,9 +28,17 @@ class CustomInterface(mli.Interface):
         #Attributes of the interface can be added here
         #If you want to precalculate any variables etc. this is the place to do it
         #In this example we will just define the location of the minimum
-
+        self.dict = {'Count': [], 'param': [], 'Cost': []}
+        self.count = 1
         self.minimum_params = (np.array(minB)+ np.array(maxB))/2 #np.array([0,0.1,-0.1])
-        
+    
+    def UpdateDic(self, count, param, cost):
+        self.dict['Count'].append(count)
+        self.dict['param'].append(param)
+        self.dict['Cost'].append(cost)
+        self.save()
+    def save(self):
+        pd.DataFrame.from_dict(data=self.dict).to_csv('dict_file.csv', columns =['Count', 'param', 'Cost'])
     #You must include the get_next_cost_dict method in your class
     #this method is called whenever M-LOOP wants to run an experiment
     def get_next_cost_dict(self,params_dict):
@@ -45,11 +55,11 @@ class CustomInterface(mli.Interface):
         #The evaluation will always be a success
         bad = False
         #Add a small time delay to mimic a real experiment
-        time.sleep(0.1)
-        
+        self.UpdateDic(self.count, params, cost)
         #The cost, uncertainty and bad boolean must all be returned as a dictionary
         #You can include other variables you want to record as well if you want
         cost_dict = {'cost':cost, 'uncer':uncer, 'bad':bad}
+        self.count +=1 
         return cost_dict
     
 def main():
@@ -57,16 +67,20 @@ def main():
     
     #First create your interface
     interface = CustomInterface()
+    
+    train_name = './M-LOOP_archives/controller_archive_2022-09-19_09-45.txt'
+    train_file = Convert2Learn(train_name)
     #Next create the controller. Provide it with your interface and any options you want to set
     controller = mlc.create_controller(interface, 
                                        controller_type='neural_net',
                                        no_delay = False, 
-                                       max_num_runs = 100,
+                                       max_num_runs = 15,
                                        #target_cost = -2.99,
                                        num_params = len(minB), 
                                        min_boundary = minB,
                                        max_boundary = maxB,
-                                       num_training_runs = 20, 
+                                       num_training_runs = 2, 
+                                       training_filename = train_file, 
                                        training_type = 'differential_evolution')
     #To run M-LOOP and find the optimal parameters just use the controller method optimize
     controller.optimize()
