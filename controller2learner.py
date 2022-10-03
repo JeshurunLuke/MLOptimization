@@ -6,7 +6,8 @@ def Convert2Learn(training_filename, TransformCost = 2):
         training_filename,
     )
     allParams = np.array(training_dict['out_params'], dtype=float) 
-    convert_dict['all_params'] = np.array(training_dict['out_params'], dtype=float) 
+    allParams = allParams[0:(len(allParams)-1)]
+    convert_dict['all_params'] = allParams #np.array(training_dict['out_params'], dtype=float) 
     if np.sum(TransformCost) != 2:
         all_cost = mlu.safe_cast_to_array(TransformCost)
     else:

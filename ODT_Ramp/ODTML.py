@@ -10,13 +10,7 @@ import time
 from scipy import integrate
 
 
-alpha = 0.5
-Time = 16.0
-
-
-ARF = [0.15, 0.1, 0.15, 0.1, 0.05]
-Amplitudes = [ 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-
+alpha = -1/5
 
 import datetime
 
@@ -104,7 +98,7 @@ def ExtractVal(dataRb):
     return pkOD, sigX, sigY, NRb
 
 def costFinderLit(pkOD, NRb): #Background N Get File structure for more accurate
-    N1 = 7376000.0/15 #or 7376000.0/100
+    N1 = 7376000.0*4 #or 7376000.0/100
     if NRb <= 0:
         return 0
     else:
@@ -155,24 +149,35 @@ class Utils():
         x = datetime.datetime.now()
         currentDate = int(x.strftime("%d"))
         self.prevDate = currentDate
+        start = time.time()
         NotExist = True
         while  NotExist:
             RunNumber = self.getRunNumber(self.PrevDir)
-
+            progress = time.time()
             if os.path.isfile(self.SumFileLoc()):
                 self.PrevDir = self.SumFileLoc()
                 self.RunNumberStart = self.getRunNumber(self.PrevDir)
                 data = self.read(self.PrevDir)
                 return data
-            elif RunNumber > self.RunNumberStart:
+            elif RunNumber != self.RunNumberStart:
                 self.RunNumberStart = RunNumber
                 data = self.read(self.PrevDir)
 
                 time.sleep(60) #Data synch such that next file is created in new dir
                 self.PrevDir = self.SumFileLoc()
                 return data                
+            elif (progress - start > 60*10):
+                print("It was forced")
+                file1 = open(CountFolderDirectory + f"\countForced" +".txt", "w")
+                toFile = "Forced"
+                file1.write(toFile)
+                while not os.path.isfile(self.SumFileLoc()):
+                    pass
 
-
+                self.PrevDir = self.SumFileLoc()
+                self.RunNumberStart = self.getRunNumber(self.PrevDir)
+                data = self.read(self.PrevDir)
+                return data
 
 
 

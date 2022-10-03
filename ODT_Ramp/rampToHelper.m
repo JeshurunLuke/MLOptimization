@@ -1,8 +1,8 @@
 function ret = rampToHelper(t, len, old_val, new_val)
-    %Ratios = [0.9,0.70, 0.5, 0.4];
-    fileloc  = "N:\KRbLab\M_loop\MLoopParam\param.mat";
+    RatiosF = [0.9,0.70, 0.5, 0.4];
+    %fileloc  = "N:\KRbLab\M_loop\MLoopParam\param.mat";
 
-    RatiosF = cell2mat(struct2cell(load(fileloc, 'RatiosF')));
+    %RatiosF = cell2mat(struct2cell(load(fileloc, 'RatiosF')));
     Vend = (old_val-new_val).*RatiosF + new_val;
     Vend = [old_val, Vend, new_val];
     tspace = linspace(0, len, length(Vend));
