@@ -8,10 +8,15 @@ import os
 import numpy as np
 import time
 from scipy import integrate
+import subprocess
 from julia.api import Julia
+import csv
+jl = Julia(compiled_modules=False)
+
 from julia import Main
 
-SavePath = "N:\KRbLab\M_loop\Data\Run1.csv"
+csvName = 'result.csv'
+SavePath = ".\RunSummary.csv"
 #Declare your custom class that inherits from the Interface class
 class CustomInterface(mli.Interface):
     
@@ -21,8 +26,8 @@ class CustomInterface(mli.Interface):
         super(CustomInterface,self).__init__()
         self.count = 1
         self.dict = {'Count': [], 'param': [], 'ground_state': [], 'nbarx': [], 'cost': []}
-        Main.include("runSidebandSeq.jl")
-        self.Main = Main
+        #Main.include("runSidebandSeq.jl")
+        #self.Main = Main
         #Attributes of the interface can be added here
         #If you want to precalculate any variables etc. this is the place to do it
         #In this example we will just define the location of the minimum
@@ -44,6 +49,10 @@ class CustomInterface(mli.Interface):
         
         #Get parameters from the provided dictionary
         params = params_dict['params']
+        #Main.include("runSidebandSeq.jl")
+
+        #print(Main.add(1,2))
+
         '''
 op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
     r_t = 32,ax_t = 32,r_f1_amp =  1,r_f2_amp =  1,ax_f1_amp = 1,ax_f2_amp = 1,
@@ -51,12 +60,21 @@ op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
         '''
         op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp = params
         n1, n2,n3,n4,n5,n6 = 8, 20, 10, 12, 14, 40
-        ground_state, nbarx = self.Main.interface(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6)
+    
+        passArg = ["julia", "runSideBandSeq.jl"] + list(params)+ [8, 20, 10, 12, 14, 40]
+        for j, i in  enumerate(passArg):
+            passArg[j] = str(i)
+        test = subprocess.Popen(passArg, stdout=subprocess.PIPE)
+        output = test.communicate()[0]
+        print(output)
+
+        ground_state, nbarx =getData()# 1, 2#self.Main.interface(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6)
+        print(f'Ground State: {ground_state}; nbarx: {nbarx}')
         cost = costFinderLit(ground_state, nbarx)
 
 
 
-        #self.updateDict(self.count, params, ground_state,nbarx,  cost)
+        self.updateDict(self.count, params, ground_state,nbarx,  cost)
         self.count += 1
         bad = False 
         cost_dict = {'cost':cost, 'bad':bad}
@@ -64,12 +82,19 @@ op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
 
 
 def costFinderLit(ground_state, nbarx): #Background N Get File structure for more accurate
-    return -nbarx*(1/(1-ground_state))
+    if ground_state == 1:
+        return -100
+    else:
+        return -(1/(1-ground_state))
 
-
+def getData():
+    with open(csvName) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for line in csv_reader:
+            data1, data2 = line
+            return float(data1), float(data2)
 def main():
     #M-LOOP can be run with three commands
-    jl = Julia(compiled_modules=False)
 
     #First create your interface
     interface = CustomInterface()

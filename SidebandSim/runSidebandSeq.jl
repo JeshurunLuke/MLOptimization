@@ -498,7 +498,9 @@ function create_sequence(op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
 end
 
 # const params = linspace(0, 3000000, 101)
-function interface(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6)
+function interface(argarray)
+    op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6 = [parse(Float64, i) for i in argarray]
+    n1, n2,n3,n4,n5,n6 = [Int64(i) for i in [ n1, n2,n3,n4,n5,n6 ]]
     res = Setup.run(create_sequence(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6), statec(), nothing, 50)
     xname[] = "Pulse group"
 
@@ -507,11 +509,21 @@ function interface(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax
     nbarx = res[1][1][1].a;
     nbary = res[1][1][2].a;
     nbarz = res[1][1][3].a;
-
+    println(nbarx)
+    println( ground_state)
+    write(ground_state,nbarx)
+    return ground_state, nbarx
+end 
+function write(ground_state, nbarx)
+    io = open("./result.csv", "w")
+    println(io, string(ground_state) * "," *string(nbarx))
+    close(io)
+    println("Completed")
     return ground_state, nbarx
 end 
 
-#if interactive()
+interface(ARGS)
+#write(1,2)
 #    #plot_ndist(res,3)
 #    plot_result(params, res, "")
 #else    

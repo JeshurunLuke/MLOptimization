@@ -1,0 +1,43 @@
+2022-10-15 12:44:37,886 mloop                INFO     M-LOOP version 3.3.1
+2022-10-15 12:44:37,886 mloop                DEBUG    M-LOOP Logger configured.
+2022-10-15 12:44:37,886 mloop.interfaces     DEBUG    Creating interface.
+2022-10-15 12:44:51,863 mloop.controllers    DEBUG    Controller init completed.
+2022-10-15 12:44:51,863 mloop.learners.1     DEBUG    Learner init completed.
+2022-10-15 12:44:51,863 mloop.learners.1     DEBUG    Random learner init completed.
+2022-10-15 12:44:51,864 mloop.learners.2     DEBUG    Learner init completed.
+2022-10-15 12:44:51,864 mloop.controllers    INFO     Optimization started.
+2022-10-15 12:44:51,864 mloop.learners.1     DEBUG    Starting Random Learner
+2022-10-15 12:44:51,864 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-10-15 12:44:51,864 mloop.controllers    DEBUG    ML learner started.
+2022-10-15 12:44:51,876 mloop.controllers    DEBUG    Starting training optimization.
+2022-10-15 12:44:51,876 mloop.controllers    INFO     Run:1 (training)
+2022-10-15 12:44:51,878 mloop.controllers    INFO     params [28.    0.3   0.06 32.   32.    1.    1.    1.    1.  ]
+2022-10-15 12:44:51,879 mloop.interfaces     DEBUG    Interface ended
+2022-10-15 12:44:52,882 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/M-LOOP/mloop/interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File "SideBandML.py", line 57, in get_next_cost_dict
+    cost = costFinderLit(ground_state, nbarx)
+
+  File "SideBandML.py", line 69, in costFinderLit
+    return -nbarx*(1/(1-ground_state))
+
+2022-10-15 12:44:52,882 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-10-15 12:44:52,883 mloop.controllers    DEBUG    ML learner end set.
+2022-10-15 12:45:04,579 mloop.controllers    DEBUG    ML learner joined
+2022-10-15 12:45:04,580 mloop.controllers    INFO     Machine learning learner did not provide best and/or all minima.
+2022-10-15 12:45:04,580 mloop.controllers    DEBUG    Learner end event set.
+2022-10-15 12:45:04,580 mloop.controllers    DEBUG    Interface end event set.
+2022-10-15 12:45:04,876 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-10-15 12:45:05,877 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-10-15 12:45:05,878 mloop.learners.1     DEBUG    Ended Random Learner
+2022-10-15 12:45:05,878 mloop.controllers    DEBUG    Learner joined.
+2022-10-15 12:45:05,878 mloop.controllers    DEBUG    Interface joined.
+2022-10-15 12:45:05,880 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-10-15 12:45:05,880 mloop.controllers    INFO     Optimization ended because:
+2022-10-15 12:45:05,880 mloop.controllers    INFO     	* Error occurred.
+2022-10-15 12:45:05,880 mloop.controllers    INFO     Results:
+2022-10-15 12:45:05,880 mloop.controllers    INFO     	* Best parameters found:nan
+2022-10-15 12:45:05,880 mloop.controllers    INFO     	* Best cost returned:inf +/- nan
+2022-10-15 12:45:05,880 mloop.controllers    INFO     	* Best run number:nan
