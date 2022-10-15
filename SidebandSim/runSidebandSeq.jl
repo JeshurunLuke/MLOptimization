@@ -1,6 +1,6 @@
 #!/usr/bin/julia
 # Simulation requires Yichao's calculation library to run, copy this whole folder https://github.com/nacs-lab/yyc-data/tree/master/lib
-push!(LOAD_PATH, joinpath("C:\\nilab-projects\\yyc-data\\lib")) #Replace this with path to yyc data on your machine
+push!(LOAD_PATH, joinpath("/Users/jluke/Documents/Harvard/NiLab/Yichao/yyc-data/lib")) #Replace this with path to yyc data on your machine
 
 using PyPlot
 PyPlot.matplotlib["rcParams"][:update](Dict("font.size" => 20))
@@ -434,7 +434,7 @@ function create_sequence(op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
     ax_f1_amp = 1;
     ax_f2_amp = 1;
     =#
-
+    # op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp
     function add_raman_cool(t, p1, p2, ramp1, ramp2, ax, Δn)
         Setup.add_pulse(builder, create_raman(t, p1, p2, ramp1, ramp2, ax, Δn))
         Setup.add_pulse(builder, op)
@@ -498,20 +498,21 @@ function create_sequence(op_t = 28,op_f1_amp = 0.3,op_f2_amp = 0.06,
 end
 
 # const params = linspace(0, 3000000, 101)
-res = Setup.run(create_sequence(), statec(), nothing, 50)
-xname[] = "Pulse group"
+function interface(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6)
+    res = Setup.run(create_sequence(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6), statec(), nothing, 50)
+    xname[] = "Pulse group"
 
-ground_state = res[2].a;
+    ground_state = res[2].a;
 
-nbarx = res[1][1][1].a;
-nbary = res[1][1][2].a;
-nbarz = res[1][1][3].a;
-println(ground_state)
-println(nbarx)
+    nbarx = res[1][1][1].a;
+    nbary = res[1][1][2].a;
+    nbarz = res[1][1][3].a;
+
+    return ground_state, nbarx
+end 
 
 #if interactive()
 #    #plot_ndist(res,3)
 #    plot_result(params, res, "")
 #else    
 #end
-maybe_show()
