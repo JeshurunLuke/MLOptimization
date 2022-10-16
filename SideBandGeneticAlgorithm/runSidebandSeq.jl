@@ -407,7 +407,6 @@ statec() = System.StateC(sz...)
 function create_sequence(SeqOrder)
     op_t = 28; op_f1_amp = 0.3; op_f2_amp = 0.06; 
     r_t = 32; ax_t = 32; r_f1_amp =  1; r_f2_amp =  1; ax_f1_amp = 1; ax_f2_amp = 1;
-    println(SeqOrder)
     nDistAx = 3;
     builder = BuilderT(System.ThermalInit{1,Float32}(15, 1.2, 1.2), Setup.Dummy(),
                        Setup.CombinedMeasure(System.NBarMeasure(),
@@ -461,7 +460,6 @@ end
 # const params = linspace(0, 3000000, 101)
 function interface(argarray)
     argarray = [parse(Int64, i) for i in argarray]
-    println(argarray)
     res = Setup.run(create_sequence(argarray), statec(), nothing, 500)
     xname[] = "Pulse group"
 
@@ -472,13 +470,13 @@ function interface(argarray)
     nbarz = res[1][1][3].a;
 
     write(ground_state,nbarx)
+    println("," *string(ground_state) * "," *string(nbarx)* "," )
     return ground_state, nbarx
 end 
 function write(ground_state, nbarx)
     io = open("./result.csv", "w")
-    println(io, string(ground_state) * "," *string(nbarx))
+    println(io,   string(ground_state) * "," *string(nbarx) )
     close(io)
-    println("Completed")
     return ground_state, nbarx
 end 
 interface(ARGS)
