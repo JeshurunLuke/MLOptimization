@@ -11,14 +11,9 @@ import os
 import time 
 import pandas as pd
 csvName = 'result.csv'
-SavePath = "./RunSummary.csv"
 
 
-#=========================================
-# demonstrator for genetic algorithms: 
-# How many guesses do we need to find 
-# a specific sentence?
-#=========================================
+
 
 
 class GeneticEvolveSet:
@@ -47,13 +42,14 @@ class GeneticEvolveSet:
         self.Ejulia = Ejulia
         gen_curr = init
         gsInital = Ejulia(gen_curr)
+        print(f"Starting Ground State: {gsInital}")
         fit_curr = self.getCost(gsInital)
 
         gen_best = gen_curr
         fit_best = fit_curr
 
         igen     = 0
-        while (igen< Iterations):
+        while (igen< Iterations and fit_curr>-14):
             print("Starting Data Distri")
             data = Parallel(n_jobs=multiprocessing.cpu_count() )(delayed(self.ParallizeIt)( gen_best , rate_mutation) for i in range(nchild))
             genList, fitList = np.transpose(data)[0], [float(i) for i in np.transpose(data)[1]]
@@ -63,9 +59,8 @@ class GeneticEvolveSet:
                     print(f"The Updaters: {fit_curr, fit_best}")
                     fit_best = fit_curr
                     gen_best = gen_curr
-
+            fit_best = self.getCost(Ejulia(gen_best)) #REDONE
             igen     = igen + 1 
-            print('D')
             print("igen=%5i fit=%13.5e gen=%s" % (igen,float(fit_best),gen_best))
         return igen, gen_best, fit_best
 
@@ -76,7 +71,18 @@ class EvolveSeq:
         self.eVseq = ''
         self.F2 = ''
         self.Seq = self.initialize()
-    
+        self.dict = {'i':[], 'Seq': [],  'ground_state': [], 'cost': []}
+
+    def updateDict(self, count, params, ground_state,  cost):
+        self.dict['i'].append(count)
+        self.dict['Seq'].append(params)
+        self.dict['ground_state'].append(ground_state)
+        self.dict['cost'].append(cost)
+        self.Save()
+    def Save(self):
+        SavePath = "./SeqCreaterSum.csv"
+        pd.DataFrame.from_dict(data=self.dict).to_csv(SavePath, columns =['i', 'Seq', 'ground_state','cost'])
+
     @staticmethod
     def InitializeInterpreter(F1):
         preSeq = F1
@@ -91,14 +97,14 @@ class EvolveSeq:
         return InteractWithJulia
 
     def EvolveSet(self, learner):
-        Iterations = 2
+        Iterations = 15
         nchild        = 30
         init = self.eVseq
         Ejulia = self.InitializeInterpreter(self.F1)
         rate_mutation = 0.1
 
         it, gen_best, fit_best  = learner(Ejulia, init, nchild,rate_mutation, Iterations)
-        return gen_best
+        return gen_best, fit_best
 
     def splitSeq(self, seq, n, i):
         x = [seq[i * n:(i + 1) * n] for i in range((len(seq) + n - 1) // n )]
@@ -106,22 +112,25 @@ class EvolveSeq:
         self.eVseq = ''.join(list(itertools.chain.from_iterable(x[i])))
 
         self.F2 = ''.join(list(itertools.chain.from_iterable(x[(i+1):len(x)])))
-        print(self.F1, self.eVseq)
 
     def Controller(self):
         evolver = GeneticEvolveSet()
         learner = evolver.evolve
 
-        splitInto = 6
+        splitInto = 14 #has to be even number 
         Seq = [i for i in self.Seq]
-        for i in range(math.ceil(len(Seq)/splitInto)):
+        for i in range(10, math.ceil(len(Seq)/splitInto)):
+            print(f'{round(i/math.ceil(len(Seq)/splitInto), 2) *100} % Complete' )
             self.splitSeq(Seq,splitInto,i)
-            gen_best = self.EvolveSet(learner)
-            print(gen_best)
-            print([i for i in self.F1] + [i for i in gen_best])
+            gen_best, fit_best = self.EvolveSet(learner)
             Seq = [i for i in self.F1] + [i for i in gen_best] + [i for i in self.F2] 
+            ground_state = 1/fit_best + 1
+            print(''.join(list([i for i in self.F1] + [i for i in gen_best])),ground_state)
+            self.updateDict(i, ''.join(list([i for i in self.F1] + [i for i in gen_best])), ground_state,  fit_best)
+            if fit_best < -14: 
+                return ''.join(list([i for i in self.F1] + [i for i in gen_best]))
 
-        
+    
 #======================================
     def initialize(self):
         init = ''
