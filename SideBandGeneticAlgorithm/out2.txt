@@ -1,0 +1,62 @@
+3.0 % Complete
+Progress = 0.0 % in iteration: 0
+Best Cost: -1.209 Ground state: 0.17, Range: -0.162
+Progress = 6.67 % in iteration: 1
+Best Cost: -1.186 Ground state: 0.16, Range: -0.116
+Progress = 13.33 % in iteration: 2
+Best Cost: -1.22 Ground state: 0.18, Range: -0.173
+Progress = 20.0 % in iteration: 3
+Best Cost: -1.212 Ground state: 0.17, Range: -0.138
+Progress = 26.67 % in iteration: 4
+Best Cost: -1.229 Ground state: 0.19, Range: -0.141
+Progress = 33.33 % in iteration: 5
+Best Cost: -1.189 Ground state: 0.16, Range: -0.091
+Progress = 40.0 % in iteration: 6
+Best Cost: -1.191 Ground state: 0.16, Range: -0.099
+Progress = 46.67 % in iteration: 7
+Best Cost: -1.197 Ground state: 0.16, Range: -0.116
+Progress = 53.33 % in iteration: 8
+Best Cost: -1.239 Ground state: 0.19, Range: -0.114
+Progress = 60.0 % in iteration: 9
+Best Cost: -1.215 Ground state: 0.18, Range: -0.092
+Progress = 66.67 % in iteration: 10
+Best Cost: -1.223 Ground state: 0.18, Range: -0.094
+Progress = 73.33 % in iteration: 11
+Best Cost: -1.232 Ground state: 0.19, Range: -0.115
+Progress = 80.0 % in iteration: 12
+Best Cost: -1.239 Ground state: 0.19, Range: -0.134
+Progress = 86.67 % in iteration: 13
+Best Cost: -1.223 Ground state: 0.18, Range: -0.096
+Progress = 93.33 % in iteration: 14
+Best Cost: -1.226 Ground state: 0.18, Range: -0.099
+22213231222132312221323122213231222132312221111113131311 0.18463073852295397
+4.0 % Complete
+Progress = 0.0 % in iteration: 0
+Best Cost: -1.239 Ground state: 0.19, Range: -0.141
+Progress = 6.67 % in iteration: 1
+Best Cost: -1.236 Ground state: 0.19, Range: -0.118
+Progress = 13.33 % in iteration: 2
+Best Cost: -1.22 Ground state: 0.18, Range: -0.096
+Progress = 20.0 % in iteration: 3
+Best Cost: -1.223 Ground state: 0.18, Range: -0.106
+Progress = 26.67 % in iteration: 4
+Best Cost: -1.206 Ground state: 0.17, Range: -0.076
+Progress = 33.33 % in iteration: 5
+Best Cost: -1.223 Ground state: 0.18, Range: -0.081
+Progress = 40.0 % in iteration: 6
+Best Cost: -1.257 Ground state: 0.2, Range: -0.12
+Progress = 46.67 % in iteration: 7
+Best Cost: -1.248 Ground state: 0.2, Range: -0.081
+Progress = 53.33 % in iteration: 8
+Best Cost: -1.257 Ground state: 0.2, Range: -0.096
+Progress = 60.0 % in iteration: 9
+Best Cost: -1.264 Ground state: 0.21, Range: -0.124
+Progress = 66.67 % in iteration: 10
+Best Cost: -1.276 Ground state: 0.22, Range: -0.102
+Progress = 73.33 % in iteration: 11
+Best Cost: -1.254 Ground state: 0.2, Range: -0.096
+Progress = 80.0 % in iteration: 12
+Best Cost: -1.254 Ground state: 0.2, Range: -0.085
+Progress = 86.67 % in iteration: 13
+Best Cost: -1.267 Ground state: 0.21, Range: -0.106
+Progress = 93.33 % in iteration: 14

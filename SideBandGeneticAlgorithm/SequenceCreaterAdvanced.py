@@ -10,10 +10,31 @@ import multiprocessing
 import os 
 import time 
 import pandas as pd
-csvName = 'result.csv'
+import os
+
+
+
+global csvMaker
+
+write = True
+
+def getCost( ground_state):
+    return -(1/(1-ground_state))
+
+class SaveCSV:
+    def __init__(self, dictArgs, SavePath):
+        self.dict = {}
+        self.dictArgs = dictArgs
+        self.SavePath = SavePath
+        for i in dictArgs:
+            self.dict[i] = []    
+    
+    def Save(self, **kwargs):
+        for key, value in kwargs.items():
+            self.dict[str(key)].append(value)
+        pd.DataFrame.from_dict(data=self.dict).to_csv(self.SavePath, columns = self.dictArgs)
 
 class Cost:
-
     def __init__(self,fCST,exec):
         self._fcost  = fCST   # function pointer to cost function
         self._bounds = np.array([[1,3], [1, 5]]) # boundaries on which to evaluate cost function
@@ -27,7 +48,6 @@ class Cost:
         fit_next = self._fcost(ground_state)
         return fit_next
 
-  
 
     # returns the full range information
     def bounds(self):
@@ -122,7 +142,7 @@ class GeneticAdvanced:
         ind_wrst     = np.argmin(fit_curr)
         it = 0
     
-        while ((it < maxit)): 
+        while ((it < maxit) and min(fit_curr)>-6): 
             print(f'Progress = {round(it/maxit*100, 2)} % in iteration: {it}')
             #ind_wrst = ind_best # store for comparison in next iteration
             # (1) normalize genomes of parent population and rank them according to ind_breed
@@ -141,11 +161,13 @@ class GeneticAdvanced:
             it           = it+1
             if (iverb == 1):
                 print(f"Best Cost: {round(min(fit_curr), 3)} Ground state: {round(1/min(fit_curr) + 1, 2)}, Range: {round(min(fit_curr) - max(fit_curr), 3)}")
+            if write:
+                global csvMaker
+                csvMaker.Save(Generation = it, Sequence = ''.join(list([str(i) for i in children[:,ind_best]])), Ground_state = round(1/min(fit_curr) + 1, 2) , Cost = round(min(fit_curr), 3))
         return ''.join(list([str(i) for i in children[:,ind_best]])),  min(fit_curr)
 
 
-def getCost( ground_state):
-    return -(1/(1-ground_state))
+
 class GeneticEvolveSet:
     def name(self):
         return 'Basic'
@@ -190,9 +212,12 @@ class GeneticEvolveSet:
                     print(f"The Updaters: {fit_curr, fit_best}")
                     fit_best = fit_curr
                     gen_best = gen_curr
-            fit_best = self.getCost(Ejulia(gen_best)) #REDONE
+            fit_best = getCost(Ejulia(gen_best)) #REDONE
             igen     = igen + 1 
             print("igen=%5i fit=%13.5e gen=%s" % (igen,float(fit_best),gen_best))
+            if write:
+                global csvMaker
+                csvMaker.Save(Generation = igen, Sequence = gen_best, Ground_state = round(1/fit_best + 1, 2) , Cost = round(fit_best, 3))
         return igen, gen_best, fit_best
 
 #======================================
@@ -228,15 +253,18 @@ class EvolveSeq:
         return InteractWithJulia
 
     def EvolveSet(self, learner):
-        Iterations = 2
+        Iterations = 15
         nchild        = 30
         init = self.eVseq
         Ejulia = self.InitializeInterpreter(self.F1)
-        rate_mutation = 0.1
         if learner.name() == 'Advanced':
+            rate_mutation = 0.01
+
             cCST = Cost(getCost,Ejulia)
             gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations)
         elif learner.name()  == 'Basic':
+            rate_mutation = 0.1
+
             it, gen_best, fit_best  = learner.evolve(Ejulia, init, nchild,rate_mutation, Iterations)
         return gen_best, fit_best
 
@@ -247,13 +275,27 @@ class EvolveSeq:
 
         self.F2 = ''.join(list(itertools.chain.from_iterable(x[(i+1):len(x)])))
 
+    def clear(self, Directory):
+        for f in os.listdir(Directory):
+            os.remove(os.path.join(Directory, f))
+
     def Controller(self):
-        evolver = GeneticAdvanced()
+        TempDir = './Temp'
+        if not os.path.exists(TempDir):
+            os.mkdir('./Temp')
+        self.clear(TempDir)
+
+        evolver = GeneticEvolveSet()
 
         splitInto = 14 #has to be even number 
         Seq = [i for i in self.Seq]
-        for i in range(10, math.ceil(len(Seq)/splitInto)):
+        for i in range(3, math.ceil(len(Seq)/splitInto)):
+            if write:
+                global csvMaker
+                saveIt = TempDir + f'//Iteration{i}.csv'
+                csvMaker = SaveCSV(['Generation', 'Sequence', 'Ground_state', 'Cost'], saveIt)
             print(f'{round(i/math.ceil(len(Seq)/splitInto), 2) *100} % Complete' )
+
             self.splitSeq(Seq,splitInto,i)
             gen_best, fit_best = self.EvolveSet(evolver)
             Seq = [i for i in self.F1] + [i for i in gen_best] + [i for i in self.F2] 
