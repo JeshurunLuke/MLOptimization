@@ -1,5 +1,6 @@
 import itertools
 import math
+from tokenize import Single, String
 import numpy as np
 import random
 import subprocess
@@ -12,42 +13,35 @@ import time
 import pandas as pd
 import os
 
+from utils import ArraytoSeq, SeqToArray, SaveCSV
 
 
 global csvMaker
 
 write = True
+stopCOST = -5
+
 
 def getCost( ground_state):
     return -(1/(1-ground_state))
 
-class SaveCSV:
-    def __init__(self, dictArgs, SavePath):
-        self.dict = {}
-        self.dictArgs = dictArgs
-        self.SavePath = SavePath
-        for i in dictArgs:
-            self.dict[i] = []    
-    
-    def Save(self, **kwargs):
-        for key, value in kwargs.items():
-            self.dict[str(key)].append(value)
-        pd.DataFrame.from_dict(data=self.dict).to_csv(self.SavePath, columns = self.dictArgs)
+
+
 
 class Cost:
-    def __init__(self,fCST,exec):
+    def __init__(self,fCST,bounds, exec):
         self._fcost  = fCST   # function pointer to cost function
-        self._bounds = np.array([[1,3], [1, 5]]) # boundaries on which to evaluate cost function
+        self._bounds = bounds # boundaries on which to evaluate cost function
                               # must be of form np.array([[lo1,up1],[lo2,up2]...[lon,upn]])
         #self._tol    = tol    # tolerance for difference between population members (see self.err)
         self.exec =  exec
+
 
     def eval(self, x):
         gen_next = ''.join([str(int(i)) for i in x])
         ground_state = self.exec(gen_next)
         fit_next = self._fcost(ground_state)
         return fit_next
-
 
     # returns the full range information
     def bounds(self):
@@ -75,7 +69,7 @@ class GeneticAdvanced:
         local_state = np.random.RandomState(seedRun)
         for ind, char in enumerate(gene):
             if (local_state.uniform() < rate):
-                char = str(local_state.choice(np.arange(self.bounds[ind%2,0], self.bounds[ind%2,0]+1), 1)[0])
+                char = str(local_state.choice(np.arange(self.bounds[ind%self.dim,0], self.bounds[ind%self.dim,0]+1), 1)[0])
             gene_mod = gene_mod+char
         return gene_mod
     def breed(self, parents,rate):
@@ -123,6 +117,7 @@ class GeneticAdvanced:
     def evolve(self, cCST,init, npop,rate,maxit):
         iverb = 1
         self.bounds = cCST.bounds()
+        self.dim = int(np.array(self.bounds).shape[0])
 
         ndim = len(init)
         #tol  = cCST.tol()
@@ -142,7 +137,7 @@ class GeneticAdvanced:
         ind_wrst     = np.argmin(fit_curr)
         it = 0
     
-        while ((it < maxit) and min(fit_curr)>-6): 
+        while ((it < maxit) and min(fit_curr)> stopCOST): 
             print(f'Progress = {round(it/maxit*100, 2)} % in iteration: {it}')
             #ind_wrst = ind_best # store for comparison in next iteration
             # (1) normalize genomes of parent population and rank them according to ind_breed
@@ -202,7 +197,7 @@ class GeneticEvolveSet:
         fit_best = fit_curr
 
         igen     = 0
-        while (igen< Iterations and fit_curr>-14):
+        while (igen< Iterations and fit_curr> stopCOST):
             print("Starting Data Distri")
             data = Parallel(n_jobs=multiprocessing.cpu_count() )(delayed(self.ParallizeIt)( gen_best , rate_mutation) for i in range(nchild))
             genList, fitList = np.transpose(data)[0], [float(i) for i in np.transpose(data)[1]]
@@ -240,10 +235,11 @@ class EvolveSeq:
         pd.DataFrame.from_dict(data=self.dict).to_csv(SavePath, columns =['i', 'Seq', 'ground_state','cost'])
 
     @staticmethod
-    def InitializeInterpreter(F1):
+    def InitializeInterpreter(F1, translator):
         preSeq = F1
         def InteractWithJulia(seq):
-            seq = preSeq + seq
+            seq = translator(preSeq, 1) + translator(seq, 1)
+            #print(seq)
             passArg = ["julia", "runSideBandSeq.jl"] + [str(i) for i in seq]
             Run = subprocess.Popen(passArg, stdout=subprocess.PIPE)
             output = Run.communicate()[0]
@@ -252,15 +248,14 @@ class EvolveSeq:
             return ground_state
         return InteractWithJulia
 
-    def EvolveSet(self, learner):
+    def EvolveSet(self, learner, bounds, translator):
         Iterations = 15
         nchild        = 30
         init = self.eVseq
-        Ejulia = self.InitializeInterpreter(self.F1)
+        Ejulia = self.InitializeInterpreter(self.F1, translator)
         if learner.name() == 'Advanced':
             rate_mutation = 0.01
-
-            cCST = Cost(getCost,Ejulia)
+            cCST = Cost(getCost,bounds, Ejulia)
             gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations)
         elif learner.name()  == 'Basic':
             rate_mutation = 0.1
@@ -278,6 +273,16 @@ class EvolveSeq:
     def clear(self, Directory):
         for f in os.listdir(Directory):
             os.remove(os.path.join(Directory, f))
+    def Singletranslator(self, seq, task):
+        if task == 1: #Converts back
+            return seq
+        elif task == 2: 
+            return seq
+    def GroupTranslator(self, seq, task):# 1 , 2, 3
+        if task == 1: #Converts to what julia knows 
+            return ArraytoSeq([int(i) for i in seq])
+        elif task == 2: #Converts to what genetic algorithm knows
+            return ''.join(list([str(i) for i in SeqToArray(seq)]))
 
     def Controller(self):
         TempDir = './Temp'
@@ -286,9 +291,14 @@ class EvolveSeq:
         self.clear(TempDir)
 
         evolver = GeneticEvolveSet()
+        translator = self.Singletranslator #CHANGE FOR SCHEME
 
-        splitInto = 14 #has to be even number 
-        Seq = [i for i in self.Seq]
+        bounds = np.array([[1,3], [1, 5]])  
+        #bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
+
+        
+        splitInto = 14 #has to be even number #CHANGE FOR SCHEME
+        Seq = [i for i in translator(self.Seq, 2)]
         for i in range(3, math.ceil(len(Seq)/splitInto)):
             if write:
                 global csvMaker
@@ -297,12 +307,13 @@ class EvolveSeq:
             print(f'{round(i/math.ceil(len(Seq)/splitInto), 2) *100} % Complete' )
 
             self.splitSeq(Seq,splitInto,i)
-            gen_best, fit_best = self.EvolveSet(evolver)
+            gen_best, fit_best = self.EvolveSet(evolver, bounds, translator)
             Seq = [i for i in self.F1] + [i for i in gen_best] + [i for i in self.F2] 
             ground_state = 1/fit_best + 1
             print(''.join(list([i for i in self.F1] + [i for i in gen_best])),ground_state)
+
             self.updateDict(i, ''.join(list([i for i in self.F1] + [i for i in gen_best])), ground_state,  fit_best)
-            if fit_best < -14: 
+            if fit_best < stopCOST:
                 return ''.join(list([i for i in self.F1] + [i for i in gen_best]))
 
     
