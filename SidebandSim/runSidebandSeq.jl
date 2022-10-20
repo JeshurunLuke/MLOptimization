@@ -501,7 +501,7 @@ end
 function interface(argarray)
     op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6 = [parse(Float64, i) for i in argarray]
     n1, n2,n3,n4,n5,n6 = [Int64(i) for i in [ n1, n2,n3,n4,n5,n6 ]]
-    res = Setup.run(create_sequence(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6), statec(), nothing, 50)
+    res = Setup.run(create_sequence(op_t, op_f1_amp, op_f2_amp, r_t, ax_t, r_f1_amp, r_f2_amp, ax_f1_amp, ax_f2_amp, n1, n2,n3,n4,n5,n6), statec(), nothing, 500)
     xname[] = "Pulse group"
 
     ground_state = res[2].a;

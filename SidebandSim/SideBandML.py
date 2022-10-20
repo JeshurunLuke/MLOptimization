@@ -110,13 +110,13 @@ def main():
     controller = mlc.create_controller(interface, 
                                        controller_type = 'neural_net',
                                        no_delay = False, 
-                                       max_num_runs = 100,
+                                       max_num_runs = 300,
                                     
                                        #target_cost = -2.99,
                                        num_params = len(init), 
                                        min_boundary =  minB,
                                        max_boundary =  maxB,
-                                       num_training_runs = 10, 
+                                       num_training_runs = 50, 
                                        first_params = init, 
                                        training_type = 'random')
                                        
@@ -131,6 +131,6 @@ def main():
     mlv.show_all_default_visualizations(controller)
     
 
-#Ensures main is run when this code is run as a script
+#Ensures main is run when this code is run asa script
 if __name__ == '__main__':
     main()
