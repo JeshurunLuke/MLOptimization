@@ -131,7 +131,7 @@ class GeneticAdvanced:
         ind_best = -1
         parents  = np.zeros((ndim,npop),dtype=int)    # normalized (parent) population
         children = np.zeros((ndim,npop),dtype=int)    # normalized (children) population
-        fit_curr[:] =  Parallel(n_jobs=multiprocessing.cpu_count() )(delayed(cCST.eval)(pop[:,p]) for p in range(npop))
+        fit_curr[:] =  Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(cCST.eval)(pop[:,p]) for p in range(npop))
         ind_breed[:] = self.stochastic_accept(fit_curr)
         ind_best     = np.argmax(fit_curr)
         ind_wrst     = np.argmin(fit_curr)
@@ -150,7 +150,7 @@ class GeneticAdvanced:
             for p in range(npop):
                 pop[:,p] = children[:,p] 
             # (4) evaluate fitness of children and find ranking according to fitness
-            fit_curr[:] = Parallel(n_jobs=multiprocessing.cpu_count() )(delayed(cCST.eval)(children[:,p]) for p in range(npop))
+            fit_curr[:] = Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(cCST.eval)(children[:,p]) for p in range(npop))
             ind_breed[:] = self.stochastic_accept(fit_curr)
             ind_best     = np.argmax(fit_curr) # find fittest member
             it           = it+1
@@ -199,7 +199,7 @@ class GeneticEvolveSet:
         igen     = 0
         while (igen< Iterations and fit_curr> stopCOST):
             print("Starting Data Distri")
-            data = Parallel(n_jobs=multiprocessing.cpu_count() )(delayed(self.ParallizeIt)( gen_best , rate_mutation) for i in range(nchild))
+            data = Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(self.ParallizeIt)( gen_best , rate_mutation) for i in range(nchild))
             genList, fitList = np.transpose(data)[0], [float(i) for i in np.transpose(data)[1]]
 
             for fit_curr, gen_curr in zip(fitList, genList):
