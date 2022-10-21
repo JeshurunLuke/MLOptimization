@@ -1,5 +1,6 @@
 import itertools
 import math
+from SequenceCreaterAdvanced import GeneticAdvanced
 import numpy as np
 import random
 import subprocess
@@ -110,11 +111,10 @@ class EvolveSeq:
         x = [seq[i * n:(i + 1) * n] for i in range((len(seq) + n - 1) // n )]
         self.F1 = ''.join(list(itertools.chain.from_iterable(x[0:i])))
         self.eVseq = ''.join(list(itertools.chain.from_iterable(x[i])))
-
         self.F2 = ''.join(list(itertools.chain.from_iterable(x[(i+1):len(x)])))
 
     def Controller(self):
-        evolver = GeneticEvolveSet()
+        evolver = GeneticAdvanced()
         learner = evolver.evolve
 
         splitInto = 14 #has to be even number 

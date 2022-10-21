@@ -22,10 +22,12 @@ write = True
 stopCOST = -5
 
 
-def getCost( ground_state):
-    return -(1/(1-ground_state))
-
-
+def getCost( ground_state, UNC):
+    quant = ground_state #- UNC
+    if quant > 0:
+        return -(1/(1-ground_state))
+    else: 
+        return 0
 
 
 class Cost:
@@ -39,8 +41,9 @@ class Cost:
 
     def eval(self, x):
         gen_next = ''.join([str(int(i)) for i in x])
-        ground_state = self.exec(gen_next)
-        fit_next = self._fcost(ground_state)
+        ground_state, gUNC = self.exec(gen_next)
+        print(ground_state, gUNC)
+        fit_next = self._fcost(ground_state, gUNC)
         return fit_next
 
     # returns the full range information
@@ -57,7 +60,8 @@ class Cost:
 
 
     def denormalize(self,u):
-        return np.array([int(ui*(self._bounds[i%2,1]-self._bounds[i%2,0])+self._bounds[i%2,0]) for i, ui in enumerate(u)])
+        ind = self._bounds.shape[0]
+        return np.array([int(ui*(self._bounds[i%ind,1]-self._bounds[i%ind,0])+self._bounds[i%ind,0]) for i, ui in enumerate(u)])
 
 
 class GeneticAdvanced:
@@ -103,18 +107,20 @@ class GeneticAdvanced:
 
     def stochastic_accept(self, weight):
         n    = weight.size
-        maxw = np.max(weight)
+        weight = np.abs(weight)
+        width = np.max(weight) - np.min(weight)
+
         rank = np.zeros(n,dtype=int)
         for j in range(n): # positions to be filled
             notfilled = True
             while (notfilled): 
                 i = np.random.randint(0,n) # choose randomly a position
-                if (np.random.rand(1) <= weight[i]/maxw): # accept if its weight allows it
+                if (np.random.uniform(0, 1) <= (weight[i] - np.min(weight))/width): # accept if its weight allows it
                     rank[j]   = i
                     notfilled = False
-
+        print(rank)
         return rank
-    def evolve(self, cCST,init, npop,rate,maxit):
+    def evolve(self, cCST,init, npop,rate,maxit, adaptRate = True):
         iverb = 1
         self.bounds = cCST.bounds()
         self.dim = int(np.array(self.bounds).shape[0])
@@ -138,6 +144,11 @@ class GeneticAdvanced:
         it = 0
     
         while ((it < maxit) and min(fit_curr)> stopCOST): 
+            if adaptRate:
+                R_n = rate*(15 - it)/15 if it < 10 else 0.02
+                print(R_n)
+            else:
+                R_n = rate
             print(f'Progress = {round(it/maxit*100, 2)} % in iteration: {it}')
             #ind_wrst = ind_best # store for comparison in next iteration
             # (1) normalize genomes of parent population and rank them according to ind_breed
@@ -145,7 +156,7 @@ class GeneticAdvanced:
                 parents[:,p] = pop[:,ind_breed[p]] 
             # (2) breed the parents
             for p in range(int(npop/2)): # only half the range, because breed needs pairs of parents
-                children[:,2*p:2*(p+1)] = self.breed(parents[:,2*p:2*(p+1)],rate) 
+                children[:,2*p:2*(p+1)] = self.breed(parents[:,2*p:2*(p+1)],R_n) 
             # (3) denormalize genomes of children population and assign back
             for p in range(npop):
                 pop[:,p] = children[:,p] 
@@ -168,10 +179,10 @@ class GeneticEvolveSet:
         return 'Basic'
     def ParallizeIt(self,  gen_curr,rate_mutation):
         gen_next = self.mutate(gen_curr,rate_mutation)  
-        ground_state = self.Ejulia(gen_next)
-        fit_next = getCost(ground_state)
+        ground_state, groundUNC = self.Ejulia(gen_next)
+        fit_next = getCost(ground_state, groundUNC)
         print(ground_state, fit_next, gen_next)
-        return [gen_next, fit_next]
+        return [gen_next, fit_next, ground_state]
 
     def mutate(self, gen_parent,rate_mutation):
         gen_child = ''
@@ -186,12 +197,12 @@ class GeneticEvolveSet:
             gen_child = gen_child+char
         return gen_child
 
-    def evolve(self,Ejulia,  init,nchild,rate_mutation, Iterations):
+    def evolve(self,Ejulia,  init,nchild,rate_mutation, Iterations, checkIn = False, adaptRate = False):
         self.Ejulia = Ejulia
         gen_curr = init
-        gsInital = Ejulia(gen_curr)
-        print(f"Starting Ground State: {gsInital}")
-        fit_curr = getCost(gsInital)
+        gsInital, gsUNC = Ejulia(gen_curr)
+        print(f"Starting Ground State: {gsInital} +/- {gsUNC}")
+        fit_curr = getCost(gsInital, gsUNC)
 
         gen_best = gen_curr
         fit_best = fit_curr
@@ -199,21 +210,30 @@ class GeneticEvolveSet:
         igen     = 0
         while (igen< Iterations and fit_curr> stopCOST):
             print("Starting Data Distri")
-            data = Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(self.ParallizeIt)( gen_best , rate_mutation) for i in range(nchild))
-            genList, fitList = np.transpose(data)[0], [float(i) for i in np.transpose(data)[1]]
+            if adaptRate:
+                R_m = rate_mutation*(20 - Iterations)/20
+            else:
+                R_m = rate_mutation
+            data = Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(self.ParallizeIt)( gen_best , R_m) for i in range(nchild))
+            genList, fitList, ground_state = np.transpose(data)[0], [float(i) for i in np.transpose(data)[1]], [float(i) for i in np.transpose(data)[2]]
+
 
             for fit_curr, gen_curr in zip(fitList, genList):
                 if fit_curr < fit_best:
                     print(f"The Updaters: {fit_curr, fit_best}")
+                    if checkIn:
+                        gsCHECKIn, gsCHECKuncIn = Ejulia(gen_curr)
+                        fit_curr = getCost(gsCHECKIn, gsCHECKuncIn) #REDONE
                     fit_best = fit_curr
                     gen_best = gen_curr
-            fit_best = getCost(Ejulia(gen_best)) #REDONE
+            gsCHECK, gsCHECKunc = Ejulia(gen_best)
+            fit_best = getCost(gsCHECK, gsCHECKunc) #REDONE
             igen     = igen + 1 
             print("igen=%5i fit=%13.5e gen=%s" % (igen,float(fit_best),gen_best))
             if write:
                 global csvMaker
-                csvMaker.Save(Generation = igen, Sequence = gen_best, Ground_state = round(1/fit_best + 1, 2) , Cost = round(fit_best, 3))
-        return igen, gen_best, fit_best
+                csvMaker.Save(Generation = igen, Sequence = gen_best, Ground_state = round(gsCHECK, 3) , Cost = round(fit_best, 3))
+        return igen, gen_best, fit_best, gsCHECK
 
 #======================================
 class EvolveSeq:
@@ -244,24 +264,25 @@ class EvolveSeq:
             Run = subprocess.Popen(passArg, stdout=subprocess.PIPE)
             output = Run.communicate()[0]
             data= str(output).split(',')
-            ground_state = float(data[1])
-            return ground_state
+            ground_state, groundUNC = float(data[1]), float(data[2])
+            return ground_state, groundUNC
         return InteractWithJulia
 
     def EvolveSet(self, learner, bounds, translator):
-        Iterations = 15
-        nchild        = 30
+        Iterations = 20
+        nchild        = 44
         init = self.eVseq
         Ejulia = self.InitializeInterpreter(self.F1, translator)
         if learner.name() == 'Advanced':
-            rate_mutation = 0.01
+            rate_mutation = 0.10
             cCST = Cost(getCost,bounds, Ejulia)
-            gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations)
+            gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations,  adaptRate = True)
+            QOI = -1/fit_best + 1
         elif learner.name()  == 'Basic':
-            rate_mutation = 0.1
+            rate_mutation = 0.2
 
-            it, gen_best, fit_best  = learner.evolve(Ejulia, init, nchild,rate_mutation, Iterations)
-        return gen_best, fit_best
+            it, gen_best, fit_best, QOI  = learner.evolve(Ejulia, init, nchild,rate_mutation, Iterations)
+        return gen_best, fit_best, QOI
 
     def splitSeq(self, seq, n, i):
         x = [seq[i * n:(i + 1) * n] for i in range((len(seq) + n - 1) // n )]
@@ -290,15 +311,16 @@ class EvolveSeq:
             os.mkdir('./Temp')
         self.clear(TempDir)
 
-        evolver = GeneticEvolveSet()
-        translator = self.Singletranslator #CHANGE FOR SCHEME
+        evolver = GeneticAdvanced()
+        translator = self.GroupTranslator #CHANGE FOR SCHEME
 
         bounds = np.array([[1,3], [1, 5]])  
-        #bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
+        bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
 
         
-        splitInto = 14 #has to be even number #CHANGE FOR SCHEME
+        splitInto = 7  #has to be even number #CHANGE FOR SCHEME
         Seq = [i for i in translator(self.Seq, 2)]
+        print(len(Seq), len(self.Seq))
         for i in range(3, math.ceil(len(Seq)/splitInto)):
             if write:
                 global csvMaker
@@ -307,9 +329,8 @@ class EvolveSeq:
             print(f'{round(i/math.ceil(len(Seq)/splitInto), 2) *100} % Complete' )
 
             self.splitSeq(Seq,splitInto,i)
-            gen_best, fit_best = self.EvolveSet(evolver, bounds, translator)
+            gen_best, fit_best, ground_state = self.EvolveSet(evolver, bounds, translator)
             Seq = [i for i in self.F1] + [i for i in gen_best] + [i for i in self.F2] 
-            ground_state = 1/fit_best + 1
             print(''.join(list([i for i in self.F1] + [i for i in gen_best])),ground_state)
 
             self.updateDict(i, ''.join(list([i for i in self.F1] + [i for i in gen_best])), ground_state,  fit_best)

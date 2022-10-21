@@ -1,6 +1,6 @@
 #!/usr/bin/julia
-# Simulation requires Yichao's calculation library to run, copy this whole folder https://github.com/nacs-lab/yyc-data/tree/master/lib
-push!(LOAD_PATH, joinpath("C:\\Users\\SimulationComputer\\MLOOP\\YichaoRef\\yyc-data\\lib")) #Replace this with path to yyc data on your machine
+# Simulation requires Yichao's calculation library to run, copy this whole folder https://github.com/nacs-lab/yyc-data/tree/master/lib m"/Users/jluke/Documents/Harvard/NiLab/Yichao/yyc-data/lib")C:\\Users\\SimulationComputer\\MLOOP\\YichaoRef\\yyc-data\\lib
+push!(LOAD_PATH, joinpath("/Users/jluke/Documents/Harvard/NiLab/Yichao/yyc-data/lib")) #Replace this with path to yyc data on your machine
 
 using PyPlot
 PyPlot.matplotlib["rcParams"][:update](Dict("font.size" => 20))
@@ -464,20 +464,20 @@ function interface(argarray)
     xname[] = "Pulse group"
 
     ground_state = res[2].a;
-
+    ground_state_UNC = res[2].s;
     nbarx = res[1][1][1].a;
     nbary = res[1][1][2].a;
     nbarz = res[1][1][3].a;
 
     write(ground_state,nbarx)
-    println("," *string(ground_state) * "," *string(nbarx)* "," )
-    return ground_state, nbarx
+    println("," *string(ground_state) * "," *string(ground_state_UNC)* "," )
+    return ground_state, ground_state_UNC
 end 
-function write(ground_state, nbarx)
+function write(ground_state, ground_state_UNC)
     io = open("./result.csv", "w")
-    println(io,   string(ground_state) * "," *string(nbarx) )
+    println(io,   string(ground_state) * "," *string(ground_state_UNC) )
     close(io)
-    return ground_state, nbarx
+    return ground_state, ground_state_UNC
 end 
 interface(ARGS)
 #write(1,2)
