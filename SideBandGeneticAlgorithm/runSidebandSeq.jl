@@ -1,6 +1,6 @@
 #!/usr/bin/julia
 # Simulation requires Yichao's calculation library to run, copy this whole folder https://github.com/nacs-lab/yyc-data/tree/master/lib m"/Users/jluke/Documents/Harvard/NiLab/Yichao/yyc-data/lib")C:\\Users\\SimulationComputer\\MLOOP\\YichaoRef\\yyc-data\\lib
-push!(LOAD_PATH, joinpath("C:\\Users\\SimulationComputer\\MLOOP\\YichaoRef\\yyc-data\\lib")) #Replace this with path to yyc data on your machine
+push!(LOAD_PATH, joinpath("/Users/jluke/Documents/Harvard/NiLab/Yichao/yyc-data/lib")) #Replace this with path to yyc data on your machine
 
 using PyPlot
 PyPlot.matplotlib["rcParams"][:update](Dict("font.size" => 20))

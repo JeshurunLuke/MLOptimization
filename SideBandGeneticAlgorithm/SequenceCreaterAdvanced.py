@@ -106,12 +106,13 @@ class GeneticAdvanced:
 
         else:
             so1, so2 = sp1, sp2
-        if len(rate) == 2:
-            som1 = self.mutate(so1, rate[int(not Ability[0])])
-            som2 = self.mutate(so2, rate[int(not Ability[1])])
-        else:
+        if type(rate) == np.float64:
             som1 = self.mutate(so1, rate)
             som2 = self.mutate(so2, rate)
+        else:
+            som1 = self.mutate(so1, rate[int(not Ability[0])])
+            som2 = self.mutate(so2, rate[int(not Ability[1])])
+
         
         if (iverb):
             print('                           som1 = %s' % (so1))
@@ -138,7 +139,8 @@ class GeneticAdvanced:
                     notfilled = False
         print(rank)
         return rank
-    def evolve(self, cCST,init, npop,rate,maxit, adaptRate = False, keep_elitism = 2):
+    def evolve(self, cCST,init, npop,rate,maxit, adaptRate = True, keep_elitism = 2):
+        
         iverb = 1
         self.bounds = cCST.bounds()
         self.dim = int(np.array(self.bounds).shape[0])
@@ -159,6 +161,8 @@ class GeneticAdvanced:
         ind_breed[:] = self.stochastic_accept(fit_curr)
         ind_best     = np.argmin(fit_curr)
 
+        variance = np.max(np.abs(fit_curr)) - np.median(np.abs(fit_curr))
+        variance_ith = variance
         it = 0
         if keep_elitism:
             arrangedFit = np.argsort(fit_curr)
@@ -166,10 +170,12 @@ class GeneticAdvanced:
             cryostat = np.array([pop[:, arrangedFit[0:keep_elitism]], fit_curr[arrangedFit[0:keep_elitism]]], dtype= object)
 
         while ((it < maxit) and min(fit_curr)> stopCOST): 
+            R_n = rate
             if adaptRate:
-                R_n = rate*(15 - it)/15 if it < 10 else 0.02
-            else:
-                R_n = rate
+                if not isinstance(R_n, list):
+                    R_n = ((np.exp(-variance_ith/variance))**2)*0.1 + rate
+                else:
+                    R_n[1] = ((np.exp(-variance_ith/variance))**2)*0.1 + rate[1]
             print(f'Progress = {round(it/maxit*100, 2)} % in iteration: {it}')
             #ind_wrst = ind_best # store for comparison in next iteration
             # (1) rank them according to ind_breed
@@ -180,23 +186,26 @@ class GeneticAdvanced:
                 parents[:,-keep_elitism:parents.shape[1]] = cryostat[0]
             # (2) breed the parents
             for p in range(int(npop/2)): # only half the range, because breed needs pairs of parents
-                children[:,2*p:2*(p+1)] = self.breed(parents[:,2*p:2*(p+1)],R_n, np.abs(fit_curr[2*p:2*(p+1)]) > np.abs(np.average(fit_curr)))
+                rangeOfAbility = np.max(np.abs(fit_curr)) -  np.min(np.abs(fit_curr))
+                Ability = (np.abs(fit_curr[2*p:2*(p+1)]) - np.min(np.abs(fit_curr)))/rangeOfAbility > 0.90
+                children[:,2*p:2*(p+1)] = self.breed(parents[:,2*p:2*(p+1)],R_n, Ability)
 
             pop = children
             # (4) evaluate fitness of children and find ranking according to fitness
             fit_curr[:] = Parallel(n_jobs=multiprocessing.cpu_count()-2)(delayed(cCST.eval)(children[:,p]) for p in range(npop))
             ind_breed[:] = self.stochastic_accept(fit_curr)
             ind_best     = np.argmin(fit_curr) # find fittest member
-            
+            variance_ith = np.max(np.abs(fit_curr)) - np.median(np.abs(fit_curr))
             if keep_elitism:
-                min_portion = 1-np.argmin(cryostat[1])
-                for min_portion in range(len(cryostat[1])):
-                    for ind, fit_i in enumerate(fit_curr):
-                        if fit_i < cryostat[1][min_portion]:
-                            cryostat[0][:, min_portion], cryostat[1][min_portion] = children[:, ind], fit_i
-                min_portion = 1-np.argmin(cryostat[1])
+                min_portion = np.argmax(cryostat[1])
+
+                for ind, fit_i in enumerate(fit_curr):
+                    if fit_i < cryostat[1][min_portion]:
+                        cryostat[0][:, min_portion], cryostat[1][min_portion] = children[:, ind], fit_i
+                        min_portion = np.argmax(cryostat[1])
+                min_portion = np.argmax(cryostat[1])
                 cryostat[1][min_portion] = cCST.eval(cryostat[0][:, min_portion])
-                print(f'Saved Data: {cryostat}')
+                print(cryostat)
 
             it           = it+1
             if (iverb == 1):
@@ -204,7 +213,7 @@ class GeneticAdvanced:
                 for child in children:
                     avgRatio += similarStrings(Array2String(child),Array2String(children[:,ind_best]))
                 avgRatio = avgRatio/npop
-                print(f"Best Cost: {round(min(fit_curr), 3)} Ground state: {round(1/min(fit_curr) + 1, 2)}, Variation: {avgRatio}")
+                print(f"Best Cost: {round(min(fit_curr), 3)} Ground state: {round(1/min(fit_curr) + 1, 2)}, Consistance: {avgRatio}, Variance: {round(variance_ith, 2)}, Mutation Rate: {R_n}")
             if write:
                 global csvMaker
                 csvMaker.Save(Generation = it, Sequence = ''.join(list([str(i) for i in children[:,ind_best]])), Ground_state = round(1/min(fit_curr) + 1, 2) , Cost = round(min(fit_curr), 3))
@@ -304,12 +313,12 @@ class EvolveSeq:
 
     def EvolveSet(self, learner, bounds, translator,rate_mutation ):
         Iterations = 15
-        nchild        = 32
+        nchild        = 30
 
         init = self.eVseq
         Ejulia = self.InitializeInterpreter(self.F1, translator)
         cCST = Cost(getCost,bounds, Ejulia)
-        it, gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations,  adaptRate = False)
+        it, gen_best, fit_best = learner.evolve(cCST,init, nchild,rate_mutation,Iterations,  adaptRate = True)
 
         QOI = 1/fit_best + 1
 
@@ -338,20 +347,20 @@ class EvolveSeq:
             return ''.join(list([str(i) for i in SeqToArray(seq)]))
 
     def Controller(self):
-        expand = False
+        expand = True
         TempDir = './Temp'
         if not os.path.exists(TempDir):
             os.mkdir('./Temp')
         self.clear(TempDir)
 
         evolver = GeneticAdvanced()
-        translator = self.GroupTranslator #CHANGE FOR SCHEME
-        rate = [0.02, 0.1]
+        translator = self.Singletranslator #CHANGE FOR SCHEME
+        rate = [0.01, 0.15]
 
-        #bounds = np.array([[1,3], [1, 5]])  
-        bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
+        bounds = np.array([[1,3], [1, 5]])  
+        #bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
 
-        splitInto = 7  #has to be even number #CHANGE FOR SCHEME
+        splitInto = 6  #has to be even number #CHANGE FOR SCHEME
         #Initial =    translator(self.initialize(), 2)
         Initial = translator(self.initialize(), 2)
         if expand: 
@@ -407,7 +416,7 @@ class EvolveSeq:
         for i in range(40):
             init += '1211222112113231'
         #769876987698769876987121111186214111481811118111116181116811111811181611111611111116115381116111811116618111111181111111611111
-        #init = '222132312221323122213231222132312221323122111211111111113121121114111111143111311111111131111111111121113111111121311111111111311111113111211111111214211121111311111411'
+        init = '222132312221323122213231222132312221323122111211111111113121121114111111143111311111111131111111111121113111111121311111111111311111113111211111111214211121111311111411'
         return init
     
 s = EvolveSeq()
