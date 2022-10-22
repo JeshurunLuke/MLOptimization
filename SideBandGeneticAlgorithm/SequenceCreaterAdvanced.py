@@ -138,7 +138,7 @@ class GeneticAdvanced:
                     notfilled = False
         print(rank)
         return rank
-    def evolve(self, cCST,init, npop,rate,maxit, adaptRate = True, keep_elitism = 2):
+    def evolve(self, cCST,init, npop,rate,maxit, adaptRate = False, keep_elitism = 2):
         iverb = 1
         self.bounds = cCST.bounds()
         self.dim = int(np.array(self.bounds).shape[0])
@@ -190,13 +190,13 @@ class GeneticAdvanced:
             
             if keep_elitism:
                 min_portion = 1-np.argmin(cryostat[1])
-
-                for ind, fit_i in enumerate(fit_curr):
-                    if fit_i < cryostat[1][min_portion]:
-                        cryostat[0][:, min_portion], cryostat[1][min_portion] = children[:, ind], fit_i
-                        min_portion = 1-np.argmin(cryostat[1])
+                for min_portion in range(len(cryostat[1])):
+                    for ind, fit_i in enumerate(fit_curr):
+                        if fit_i < cryostat[1][min_portion]:
+                            cryostat[0][:, min_portion], cryostat[1][min_portion] = children[:, ind], fit_i
                 min_portion = 1-np.argmin(cryostat[1])
                 cryostat[1][min_portion] = cCST.eval(cryostat[0][:, min_portion])
+                print(f'Saved Data: {cryostat}')
 
             it           = it+1
             if (iverb == 1):
@@ -304,7 +304,7 @@ class EvolveSeq:
 
     def EvolveSet(self, learner, bounds, translator,rate_mutation ):
         Iterations = 15
-        nchild        = 30
+        nchild        = 32
 
         init = self.eVseq
         Ejulia = self.InitializeInterpreter(self.F1, translator)
@@ -345,13 +345,13 @@ class EvolveSeq:
         self.clear(TempDir)
 
         evolver = GeneticAdvanced()
-        translator = self.Singletranslator #CHANGE FOR SCHEME
-        rate = [0.01, 0.1]
+        translator = self.GroupTranslator #CHANGE FOR SCHEME
+        rate = [0.02, 0.1]
 
-        bounds = np.array([[1,3], [1, 5]])  
-        #bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
+        #bounds = np.array([[1,3], [1, 5]])  
+        bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
 
-        splitInto = 14  #has to be even number #CHANGE FOR SCHEME
+        splitInto = 7  #has to be even number #CHANGE FOR SCHEME
         #Initial =    translator(self.initialize(), 2)
         Initial = translator(self.initialize(), 2)
         if expand: 
