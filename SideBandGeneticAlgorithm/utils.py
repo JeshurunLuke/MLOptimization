@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 
+from difflib import SequenceMatcher
 
 Translator = {1: '11', 2: '12', 3: '13', 4: '14', 5: '15', 6: '21', 7: '22',8: '31', 9:'32'}
 
@@ -20,7 +21,10 @@ def SeqToArray(Seq): #Seq is a string
         pos  = val_list.index(Seq[pulse:pulse + 2])
         Array.append(int(key_list[pos]))
     return np.array(Array, dtype= int)
-
+def Array2String(Array):
+    return ''.join(list([str(i) for i in Array]))
+def similarStrings(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 class SaveCSV:
     def __init__(self, dictArgs, SavePath):
         self.dict = {}
