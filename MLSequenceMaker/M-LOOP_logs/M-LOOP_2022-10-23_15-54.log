@@ -1,0 +1,49 @@
+2022-10-23 15:54:18,235 mloop                INFO     M-LOOP version 3.3.1
+2022-10-23 15:54:18,235 mloop                DEBUG    M-LOOP Logger configured.
+2022-10-23 15:54:18,235 mloop.interfaces     DEBUG    Creating interface.
+2022-10-23 15:54:18,236 mloop.controllers    DEBUG    Controller init completed.
+2022-10-23 15:54:18,236 mloop.learners.1     DEBUG    Learner init completed.
+2022-10-23 15:54:18,236 mloop.learners.1     DEBUG    Random learner init completed.
+2022-10-23 15:54:18,237 mloop.learners.2     DEBUG    Learner init completed.
+2022-10-23 15:54:18,237 mloop.controllers    INFO     Optimization started.
+2022-10-23 15:54:18,237 mloop.learners.1     DEBUG    Starting Random Learner
+2022-10-23 15:54:18,237 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-10-23 15:54:18,237 mloop.controllers    DEBUG    ML learner started.
+2022-10-23 15:54:18,243 mloop.controllers    DEBUG    Starting training optimization.
+2022-10-23 15:54:18,243 mloop.controllers    INFO     Run:1 (training)
+2022-10-23 15:54:18,244 mloop.controllers    INFO     params [0.28662375 0.58319152 0.47897575 0.38312112 0.44968589 0.64599694]
+2022-10-23 15:54:23,777 mloop.controllers    INFO     cost -1.0509186351706037 +/- 0.0
+2022-10-23 15:54:23,778 mloop.controllers    INFO     Run:2 (training)
+2022-10-23 15:54:23,779 mloop.controllers    INFO     params [0.25801903 0.36872273 0.34648741 0.79398597 0.08906058 0.57872894]
+2022-10-23 15:54:28,830 mloop.controllers    INFO     cost -1.0969863013698629 +/- 0.0
+2022-10-23 15:54:28,830 mloop.controllers    INFO     Run:3 (training)
+2022-10-23 15:54:28,832 mloop.controllers    INFO     params [0.50521785 0.59698793 0.66696624 0.67855736 0.61821615 0.65187515]
+2022-10-23 15:54:28,832 mloop.controllers    DEBUG    Starting ML optimization.
+2022-10-23 15:54:33,900 mloop.controllers    INFO     cost -1.046523784631469 +/- 0.0
+2022-10-23 15:54:33,925 mloop.controllers    DEBUG    End training runs.
+2022-10-23 15:54:33,925 mloop.controllers    INFO     Run:4 (machine learner)
+2022-10-23 15:54:40,698 mloop.controllers    INFO     params [1.         0.51976196 0.05612618 1.         1.         0.        ]
+2022-10-23 15:54:46,220 mloop.controllers    INFO     cost -1.078082929456112 +/- 0.0
+2022-10-23 15:54:46,220 mloop.controllers    INFO     Run:5 (machine learner)
+2022-10-23 15:54:47,876 mloop.controllers    INFO     params [0.         0.         0.         0.58463994 1.         0.88754584]
+2022-10-23 15:54:53,436 mloop.controllers    INFO     cost -1.0432516935904117 +/- 0.0
+2022-10-23 15:54:53,437 mloop.controllers    INFO     Controller finished. Closing down M-LOOP. Please wait a moment...
+2022-10-23 15:54:53,437 mloop.controllers    DEBUG    ML learner end set.
+2022-10-23 15:55:02,230 mloop.controllers    DEBUG    ML learner joined
+2022-10-23 15:55:02,230 mloop.controllers    DEBUG    Learner end event set.
+2022-10-23 15:55:02,230 mloop.controllers    DEBUG    Interface end event set.
+2022-10-23 15:55:02,445 mloop.interfaces     DEBUG    Interface ended
+2022-10-23 15:55:02,881 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-10-23 15:55:03,883 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-10-23 15:55:03,884 mloop.learners.1     DEBUG    Ended Random Learner
+2022-10-23 15:55:03,885 mloop.controllers    DEBUG    Learner joined.
+2022-10-23 15:55:03,885 mloop.controllers    DEBUG    Interface joined.
+2022-10-23 15:55:03,887 mloop.controllers    INFO     Optimization ended because:
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Maximum number of runs reached.
+2022-10-23 15:55:03,888 mloop.controllers    INFO     Results:
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Best parameters found:[0.25801903 0.36872273 0.34648741 0.79398597 0.08906058 0.57872894]
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Best cost returned:-1.0969863013698629 +/- 0.0
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Best run number:2
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Predicted best parameters:[0.8465224 0.        0.        0.        1.        0.       ]
+2022-10-23 15:55:03,888 mloop.controllers    INFO     	* Predicted best cost:-1.1344842062006968
+2022-10-23 15:55:03,888 mloop.controllers    INFO     M-LOOP Done.

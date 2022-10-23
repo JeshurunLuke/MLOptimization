@@ -1,0 +1,5 @@
+2022-10-22 21:45:41,248 mloop                INFO     M-LOOP version 3.3.1
+2022-10-22 21:45:41,248 mloop                DEBUG    M-LOOP Logger configured.
+2022-10-22 21:45:41,248 mloop.interfaces     DEBUG    Creating interface.
+2022-10-22 21:45:41,249 mloop.controllers    DEBUG    Controller init completed.
+2022-10-22 21:45:41,250 mloop.learners.1     ERROR    min_boundary array the wrong shape:(2,)
