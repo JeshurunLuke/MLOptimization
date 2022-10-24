@@ -2,9 +2,8 @@
 import numpy as np
 import pandas as pd
 
-from difflib import SequenceMatcher
 
-Translator = {0: '33', 1: '11', 2: '12', 3: '13', 4: '14', 5: '15', 6: '21', 7: '22',8: '31', 9:'32'}
+Translator = {1: '11', 2: '12', 3: '13', 4: '14', 5: '15', 6: '21', 7: '22',8: '31', 9:'32'}
 
 def ArraytoSeq(Array): #array is [1:,]
     seqTransformed = ''
@@ -23,8 +22,7 @@ def SeqToArray(Seq): #Seq is a string
     return np.array(Array, dtype= int)
 def Array2String(Array):
     return ''.join(list([str(i) for i in Array]))
-def similarStrings(a, b):
-    return SequenceMatcher(None, a, b).ratio()
+
 class SaveCSV:
     def __init__(self, dictArgs, SavePath):
         self.dict = {}
@@ -41,7 +39,7 @@ import mloop.utilities as mlu
 import numpy as np
 convert_dict = {}
 
-def Convert2Learn(parameters, cost):
+def Convert2Learn(parameters, cost, error = []):
     print(parameters)
     allParams = np.array(parameters, dtype=float) 
     convert_dict['all_params'] = allParams #np.array(training_dict['out_params'], dtype=float) 
@@ -49,7 +47,8 @@ def Convert2Learn(parameters, cost):
     convert_dict['all_costs'] = cost
     convert_dict['costs_count'] = len(cost)
     convert_dict['all_uncers'] = mlu.safe_cast_to_array(1E-8*np.ones(len(convert_dict['all_costs'])))
-    
+    if len(error ) > 0:
+        convert_dict['all_uncers'] = mlu.safe_cast_to_array(error)
     convert_dict['bad_run_indexs'] = get_bads(len(cost))
     convert_dict['best_index'] = int(np.argmin(cost))
     convert_dict['best_cost'] = cost[convert_dict['best_index']]

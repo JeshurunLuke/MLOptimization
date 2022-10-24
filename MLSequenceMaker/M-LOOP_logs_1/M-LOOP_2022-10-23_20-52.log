@@ -1,0 +1,64 @@
+2022-10-23 20:52:24,133 mloop                INFO     M-LOOP version 3.3.1
+2022-10-23 20:52:24,133 mloop                DEBUG    M-LOOP Logger configured.
+2022-10-23 20:52:24,133 mloop.interfaces     DEBUG    Creating interface.
+2022-10-23 20:52:24,135 mloop.controllers    DEBUG    Controller init completed.
+2022-10-23 20:52:24,136 mloop.learners.1     DEBUG    Learner init completed.
+2022-10-23 20:52:24,136 mloop.learners.1     DEBUG    Random learner init completed.
+2022-10-23 20:52:24,138 mloop.learners.2     DEBUG    Learner init completed.
+2022-10-23 20:52:24,138 mloop.controllers    INFO     Optimization started.
+2022-10-23 20:52:24,138 mloop.learners.1     DEBUG    Starting Random Learner
+2022-10-23 20:52:24,139 mloop.interfaces     DEBUG    Entering main loop of interface.
+2022-10-23 20:52:24,139 mloop.controllers    DEBUG    ML learner started.
+2022-10-23 20:52:24,147 mloop.controllers    DEBUG    Starting training optimization.
+2022-10-23 20:52:24,148 mloop.controllers    INFO     Run:1 (training)
+2022-10-23 20:52:24,150 mloop.controllers    INFO     params [0.38158484 0.24579774 0.68247346 0.54861871 0.2810855  0.5289816 ]
+2022-10-23 20:52:30,187 mloop.controllers    INFO     cost -1.0356958096223488 +/- 0.012329639370748158
+2022-10-23 20:52:30,188 mloop.controllers    INFO     Run:2 (training)
+2022-10-23 20:52:30,189 mloop.controllers    INFO     params [0.17085484 0.32151153 0.07364683 0.25989941 0.7325985  0.91630535]
+2022-10-23 20:52:35,633 mloop.controllers    INFO     cost -1.079245283018868 +/- 0.01918105819912075
+2022-10-23 20:52:35,634 mloop.controllers    INFO     Run:3 (training)
+2022-10-23 20:52:35,635 mloop.controllers    INFO     params [0.21785545 0.09762497 0.53207889 0.54750873 0.49853729 0.83448882]
+2022-10-23 20:52:35,635 mloop.controllers    DEBUG    Starting ML optimization.
+2022-10-23 20:52:41,076 mloop.controllers    INFO     cost -1.0862723819858926 +/- 0.020146468784808746
+2022-10-23 20:52:41,084 mloop.controllers    DEBUG    End training runs.
+2022-10-23 20:52:41,085 mloop.controllers    INFO     Run:4 (machine learner)
+2022-10-23 20:52:48,021 mloop.controllers    INFO     params [0.50365838 0.05       0.2903155  0.05       0.949      0.26196389]
+2022-10-23 20:52:48,022 mloop.interfaces     DEBUG    Interface ended
+2022-10-23 20:52:49,025 mloop.controllers    ERROR    The interface raised an error with traceback:
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/M-LOOP/mloop/interfaces.py", line 133, in run
+    cost_dict = self.get_next_cost_dict(params_dict)
+
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/MLSequenceMaker/MLSequenceBuilder.py", line 89, in get_next_cost_dict
+    cost, uncer = self.cCST.eval(seq)
+
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/MLSequenceMaker/MLSequenceBuilder.py", line 32, in eval
+    ground_state, gUNC = self.exec(gen_next)
+
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/MLSequenceMaker/MLSequenceBuilder.py", line 177, in InteractWithJulia
+    seq = translator(preSeq, 1) + translator(seq, 1)
+
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/MLSequenceMaker/MLSequenceBuilder.py", line 214, in GroupTranslator
+    return ArraytoSeq([int(i) for i in seq])
+
+  File "/Users/jluke/Documents/Harvard/Rotations/NiGroup/MLOptimization/MLSequenceMaker/utils.py", line 11, in ArraytoSeq
+    seqTransformed  = seqTransformed + Translator[int(i)]
+
+2022-10-23 20:52:49,025 mloop.controllers    WARNING  Controller ended due to exception of some kind. Starting shut down...
+2022-10-23 20:52:49,025 mloop.controllers    DEBUG    ML learner end set.
+2022-10-23 20:53:01,574 mloop.controllers    DEBUG    ML learner joined
+2022-10-23 20:53:01,575 mloop.controllers    DEBUG    Learner end event set.
+2022-10-23 20:53:01,575 mloop.controllers    DEBUG    Interface end event set.
+2022-10-23 20:53:01,656 mloop.learners.1     DEBUG    Learner end signal received. Ending
+2022-10-23 20:53:02,659 mloop.learners.1     DEBUG    Performing shut down of learner.
+2022-10-23 20:53:02,659 mloop.learners.1     DEBUG    Ended Random Learner
+2022-10-23 20:53:02,660 mloop.controllers    DEBUG    Learner joined.
+2022-10-23 20:53:02,660 mloop.controllers    DEBUG    Interface joined.
+2022-10-23 20:53:02,663 mloop.controllers    WARNING  Safely shut down. Below are results found before exception.
+2022-10-23 20:53:02,663 mloop.controllers    INFO     Optimization ended because:
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Error occurred.
+2022-10-23 20:53:02,663 mloop.controllers    INFO     Results:
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Best parameters found:[0.21785545 0.09762497 0.53207889 0.54750873 0.49853729 0.83448882]
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Best cost returned:-1.0862723819858926 +/- 0.020146468784808746
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Best run number:3
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Predicted best parameters:[0.50366035 0.05       0.29031133 0.05       0.949      0.26196008]
+2022-10-23 20:53:02,663 mloop.controllers    INFO     	* Predicted best cost:-1.167532402928581

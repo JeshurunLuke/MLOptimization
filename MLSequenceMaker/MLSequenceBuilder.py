@@ -32,7 +32,8 @@ class Cost:
         ground_state, gUNC = self.exec(gen_next)
         print(ground_state, gUNC)
         fit_next = self._fcost(ground_state, gUNC)
-        return fit_next
+        error = np.abs(self._fcost(ground_state + gUNC, gUNC) - self._fcost(ground_state - gUNC, gUNC))
+        return [fit_next, error]
 
 
     # returns the full range information
@@ -85,12 +86,12 @@ class CustomInterface(mli.Interface):
         print(np.array([format(round(i, self.lenOfSeq), f'.{self.lenOfSeq}f') for i in params], dtype= object))
         seq = self.cCST.decodeMLOOP(np.array([format(round(i, self.lenOfSeq), f'.{self.lenOfSeq}f') for i in params], dtype= object))
         print(seq)
-        cost = self.cCST.eval(seq)
+        cost, uncer = self.cCST.eval(seq)
 
 
         self.count += 1
         bad = False 
-        cost_dict = {'cost':cost, 'bad':bad}
+        cost_dict = {'cost':cost, 'bad':bad, 'uncer':uncer}
         return cost_dict
 
 def getCost( ground_state, UNC):
@@ -115,18 +116,18 @@ class ML():
         
         pop[:, 0] =  [int(i) for i in init]
         fit_curr = np.zeros(totalRUN)           # note that fit == 0.0 is best here,
-        fit_curr[:] =  Parallel(backend='loky', n_jobs=multiprocessing.cpu_count())(delayed(cCST.eval)(pop[:,p]) for p in range(totalRUN))
-        
+        data =  Parallel(backend='loky', n_jobs=multiprocessing.cpu_count())(delayed(cCST.eval)(pop[:,p]) for p in range(totalRUN))
+        fit_curr[:], error = np.transpose(data)
         params = np.zeros((self.numOfParam, totalRUN), dtype = float)
 
         for p in range(totalRUN):
 
             params[:, p] = cCST.toMLOOP(pop[:, p], self.LenOfSeq, self.numOfParam)
-        return Convert2Learn(np.transpose(params), fit_curr)
+        return Convert2Learn(np.transpose(params), fit_curr, error = error)
 
     def evolve(self, cCST, init, trainingSet, Iterations):
-        maxB = list(np.ones(self.numOfParam)*0.949)
-        minB = list(np.ones(self.numOfParam)*0.05)
+        maxB = list(np.ones(self.numOfParam)*(1-float(f'0.5001E{-(self.LenOfSeq)}')))
+        minB = list(np.ones(self.numOfParam)*(0 + float(f'0.5001E{-(self.LenOfSeq)}')))
                                                             
         saveName = self.generateTrainingSet(init,cCST, trainingSet)
 
@@ -226,7 +227,7 @@ class EvolveSeq:
 
         translator = self.GroupTranslator #CHANGE FOR SCHEME
 
-        bounds = np.array([[0, 9]])      #CHANGE FOR SCHEME   
+        bounds = np.array([[1, 9]])      #CHANGE FOR SCHEME   
 
         #Initial =    translator(self.initialize(), 2)
         Initial = translator(self.initialize(), 2)
